@@ -20,15 +20,16 @@ namespace ProceduralDungeon
                     Tile tile = tiles[x, y];
                     Transform trans = Instantiate(prefab).transform;
                     SpriteRenderer rend = trans.GetComponent<SpriteRenderer>();
+                    TileType type = tile.type;
 
                     trans.SetParent(parent);
-                    trans.name = $"{prefab.name}_[{x}_{y}]_{tile.type.name}".ToLowerInvariant();
+                    trans.name = $"{new string(' ', y)}{prefab.name}_[{x}_{y}]_{type.name}".ToLowerInvariant();
                     trans.localPosition = new Vector3(x * tile.width, y * tile.height, 0f) * spacing;
                     trans.localRotation = Quaternion.identity;
                     trans.localScale = new Vector3(tile.width, tile.height, 1f);
 
-                    rend.sprite = tile.type.sprite;
-                    rend.color = tile.type.color;
+                    rend.sprite = type.sprite;
+                    rend.color = type.color;
                 }
             }
         }

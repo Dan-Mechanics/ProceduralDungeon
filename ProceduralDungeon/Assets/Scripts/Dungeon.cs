@@ -13,21 +13,24 @@ namespace ProceduralDungeon
 
         public void Show()
         {
-            Hide();
+            if (!Hide())
+                return;
+
             Tile[,] tiles = GetTiles(randomWalk, new List<ILayoutDecorator>() { layoutAnalyzer, contentPlacer });
             GetComponent<IDungeonVisualizer>().Visualize(tiles);
         }
 
-        public void Hide() 
+        public bool Hide() 
         {
             if (string.IsNullOrEmpty(tileTag) || string.IsNullOrWhiteSpace(tileTag) || tileTag == "Untagged") 
             {
                 Debug.LogError($"Please correctly assign {nameof(tileTag)}. It is currently set to '{tileTag}'.");
-                return;
+                return false;
             }
             
             List<GameObject> tiles = GameObject.FindGameObjectsWithTag(tileTag).ToList();
             tiles.ForEach(x => DestroyImmediate(x));
+            return true;
         }
 
         private Tile[,] GetTiles(ILayoutGenerator generator, List<ILayoutDecorator> decorators)
