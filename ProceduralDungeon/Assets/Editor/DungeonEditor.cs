@@ -1,21 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace ProceduralDungeon
 {
-    public class DungeonEditor : MonoBehaviour
+    [CustomEditor(typeof(Dungeon))]
+    public class DungeonEditor : Editor
     {
-        // Start is called before the first frame update
-        void Start()
+        public override void OnInspectorGUI()
         {
-        
-        }
+            base.OnInspectorGUI();
 
-        // Update is called once per frame
-        void Update()
-        {
-        
+            Dungeon dungeon = target as Dungeon;
+            if (GUILayout.Button(nameof(Dungeon.Show)))
+                dungeon.Show();
+
+            if (GUILayout.Button(nameof(Dungeon.Hide)))
+                dungeon.Hide();
+
         }
     }
 }

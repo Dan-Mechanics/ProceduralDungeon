@@ -1,29 +1,33 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace ProceduralDungeon
 {
     public class Dungeon : MonoBehaviour
     {
+        [SerializeField] private string tileTag = default;
         [SerializeField] private RandomWalk randomWalk = default;
-        [SerializeField] private Analyzer analyzer = default;
+        [SerializeField] private LayoutAnalyzer layoutAnalyzer = default;
         [SerializeField] private ContentPlacer contentPlacer = default;
 
-        public void ShowPreview()
+        public void Show()
         {
-            HidePreview();
-            Tile[,] tiles = GetTiles(randomWalk, new List<ILayoutDecorator>() { analyzer, contentPlacer });
-            // visualize tiles.
-            for (int x = 0; x < tiles.GetLength(0); x++)
-            {
-                // etc
-            }
+            Hide();
+            Tile[,] tiles = GetTiles(randomWalk, new List<ILayoutDecorator>() { layoutAnalyzer, contentPlacer });
+            GetComponent<IDungeonVisualizer>().Visualize(tiles);
         }
 
-        public void HidePreview() 
+        public void Hide() 
         {
-            // destroy all tiles.
+            if (string.IsNullOrEmpty(tileTag) || string.IsNullOrWhiteSpace(tileTag) || tileTag == "Untagged") 
+            {
+                Debug.LogError($"Please correctly assign {nameof(tileTag)}. It is currently set to '{tileTag}'.");
+                return;
+            }
+            
+            List<GameObject> tiles = GameObject.FindGameObjectsWithTag(tileTag).ToList();
+            tiles.ForEach(x => DestroyImmediate(x));
         }
 
         private Tile[,] GetTiles(ILayoutGenerator generator, List<ILayoutDecorator> decorators)
