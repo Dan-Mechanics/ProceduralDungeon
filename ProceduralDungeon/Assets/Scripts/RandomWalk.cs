@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 namespace ProceduralDungeon
@@ -7,7 +8,7 @@ namespace ProceduralDungeon
     [System.Serializable]
     public class RandomWalk : ILayoutGenerator 
     {
-        public int seed;
+        public string seed;
         public TileType air;
         public TileType stone;
         [Min(1)] public int width;
@@ -16,22 +17,41 @@ namespace ProceduralDungeon
         public int tileHeight;
         [Range(0f, 1f)] public float stonePercentage;
 
-        public RandomWalk(int seed, TileType air, TileType stone, int width, int height, int tileWidth, int tileHeight, float stonePercentage)
+        public void OnLoad(Blackboard blackboard)
         {
-            this.seed = seed;
-            this.air = air;
-            this.stone = stone;
-            this.width = width;
-            this.height = height;
-            this.tileWidth = tileWidth;
-            this.tileHeight = tileHeight;
-            this.stonePercentage = stonePercentage;
+            //seed = blackboard.GetValue<string>(nameof(seed));
+            File.WriteAllText("", blackboard.ToString());
+            int kaas = blackboard.GetValue<int>(nameof(kaas));
         }
 
         public Tile[,] Generate()
         {
-            Random.InitState(seed);
-            
+            Random.InitState(seed.GetHashCode());
+
+            OnLoad(new Blackboard());
+
+            // f, i, b, s
+            object test = 10f;
+            char c = ' ';
+            if (test is float)
+            {
+                c = 'f';
+            }
+            else if(test is int)
+            {
+                c = 'i';
+            }
+            else if(test is string)
+            {
+                c = 's';
+            }
+            else if(test is bool)
+            {
+                c = 'b';
+            }
+
+            Debug.Log($"{c},{nameof(test)},{test}");
+
             Tile[,] tiles = new Tile[width, height];
             for (int x = 0; x < width; x++)
             {
