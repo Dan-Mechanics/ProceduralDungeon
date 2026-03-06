@@ -35,15 +35,6 @@ namespace ProceduralDungeon
             }
         }
 
-        public void LogAll()
-        {
-            foreach (KeyValuePair<string, object> pair in dictionary)
-            {
-                //OnLog?.Invoke($"'{pair.Key}'_'{pair.Value}'");
-                OnLog?.Invoke($"'{pair.Key}'   '{pair.Value}'");
-            }
-        }
-
         private void AddEntry(char type, string key, string value)
         {
             type = type.ToString().ToLowerInvariant()[0];
@@ -66,13 +57,22 @@ namespace ProceduralDungeon
             }
         }
 
+        public void LogAll()
+        {
+            foreach (KeyValuePair<string, object> pair in dictionary)
+            {
+                //OnLog?.Invoke($"'{pair.Key}'_'{pair.Value}'");
+                OnLog?.Invoke($"'{pair.Key}'   '{pair.Value}'");
+            }
+        }
+
         public string AsString()
         {
             StringBuilder builder = new StringBuilder();
             foreach (KeyValuePair<string, object> pair in dictionary)
             {
-                object value = pair.Value;
                 string key = pair.Key;
+                object value = pair.Value;
                 if (value is float f)
                 {
                     builder.Append($"{nameof(f)},{key},{f}");

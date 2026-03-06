@@ -4,9 +4,6 @@ using UnityEngine;
 
 namespace ProceduralDungeon
 {
-    /// <summary>
-    /// Master script.
-    /// </summary>
     public class Dungeon : MonoBehaviour
     {
         private Blackboard blackboard;
@@ -24,15 +21,14 @@ namespace ProceduralDungeon
 
         public void Refresh()
         {
-            // REMOVE OLD STUFF.
-            Hide();
+            RemoveOldTiles();
 
             TileType[,] tiles = generator.Generate(blackboard);
             decorators.ForEach(x => x.Decorate(tiles, blackboard));
             visualizer.Visualize(tiles);
         }
 
-        public void Hide() 
+        public void RemoveOldTiles() 
         {
             List<GameObject> tiles = GameObject.FindGameObjectsWithTag("Tile").ToList();
             tiles.ForEach(x => DestroyImmediate(x));
