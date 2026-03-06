@@ -7,7 +7,7 @@ namespace ProceduralDungeon
         [SerializeField] protected string key = default;
         protected Blackboard blackboard;
 
-        public void Setup(Blackboard blackboard) => this.blackboard = blackboard;
-        public abstract void SyncWithBlackboard();
+        public virtual void Setup(Blackboard blackboard) => this.blackboard = blackboard;
+        public abstract void GetFromBlackboard();
     }
 }

@@ -26,12 +26,12 @@ namespace ProceduralDungeon
             fields.ForEach(x => x.Setup(blackboard));
 
             FindAnyObjectByType<CameraMover>().Setup(blackboard);
-            SendToFields();
+            MatchFieldsToBlackboard();
 
             FindAnyObjectByType<SpriteRendererDungeon>().Setup();
             dungeon = FindAnyObjectByType<Dungeon>();
             dungeon.Setup(blackboard);
-            dungeon.Refresh();
+            //dungeon.Refresh();
             
             // WE LOOVE PROGRAMMINNG !!! HAHAHAHA
             List<Button> buttons = FindObjectsByType<Button>(FindObjectsSortMode.None).ToList();
@@ -47,10 +47,10 @@ namespace ProceduralDungeon
                 FirstOrDefault();
         }
 
-        private void SendToFields()
+        private void MatchFieldsToBlackboard()
         {
             List<Field> fields = FindObjectsByType<Field>(FindObjectsSortMode.None).ToList();
-            fields.ForEach(x => x.SyncWithBlackboard());
+            fields.ForEach(x => x.GetFromBlackboard());
         }
 
         [ContextMenu(nameof(Refresh))]
@@ -72,8 +72,8 @@ namespace ProceduralDungeon
         {
             print(nameof(Load));
             persistent.Load();
-            Refresh(); // ??
-            SendToFields();
+            //Refresh(); // ??
+            MatchFieldsToBlackboard();
         }
     }
 }

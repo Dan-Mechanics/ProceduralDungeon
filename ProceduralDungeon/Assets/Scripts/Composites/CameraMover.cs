@@ -4,6 +4,8 @@ namespace ProceduralDungeon
 {
     public class CameraMover : MonoBehaviour
     {
+        [SerializeField] private float pullInterval = default;
+        
         private Blackboard blackboard;
         private float cameraSpeed;
 
@@ -15,7 +17,7 @@ namespace ProceduralDungeon
             if (Time.time >= nextSync)
             {
                 cameraSpeed = blackboard.GetValue<float>(nameof(cameraSpeed));
-                nextSync = Time.time + 0.5f;
+                nextSync = Time.time + pullInterval;
             }
             
             Vector3 movement = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), 0f);
