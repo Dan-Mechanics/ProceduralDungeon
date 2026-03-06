@@ -40,7 +40,7 @@ namespace ProceduralDungeon
         {
             foreach (KeyValuePair<string, object> pair in dictionary)
             {
-                OnLog?.Invoke($"'{pair.Key}'='{pair.Value}'");
+                OnLog?.Invoke($"'{pair.Key}'_'{pair.Value}'");
             }
         }
 
@@ -91,7 +91,7 @@ namespace ProceduralDungeon
                 }
                 else
                 {
-                    OnLog?.Invoke($"Blackboard doesn't know '{key}'='{value}'. This is fine.");
+                    OnLog?.Invoke($"Blackboard doesn't know '{key}'_'{value}'. This is fine.");
                     continue;
                 }
 
