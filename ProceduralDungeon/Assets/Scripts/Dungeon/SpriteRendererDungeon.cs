@@ -9,10 +9,10 @@ namespace ProceduralDungeon
         [SerializeField] private GameObject prefab = default;
         [SerializeField] private float size = default;
         [SerializeField] private float spacing = default;
-        [SerializeField] private Conversion[] conversions = default;
+        [SerializeField] private List<Conversion> conversions = default;
         private readonly Dictionary<TileType, Conversion> dict = new Dictionary<TileType, Conversion>();
 
-        public void Setup() => conversions.ToList().ForEach(x => dict.Add(x.type, x));
+        public void Setup() => conversions.ForEach(x => dict.Add(x.type, x));
 
         /// <summary>
         /// Make sure to call Setup().
