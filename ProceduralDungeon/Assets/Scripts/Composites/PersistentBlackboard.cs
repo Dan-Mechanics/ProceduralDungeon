@@ -11,7 +11,6 @@ namespace ProceduralDungeon
         public void Setup(Blackboard blackboard)
         {
             this.blackboard = blackboard;
-            blackboard.Clear();
             blackboard.LoadFromString(Resources.Load<TextAsset>("defaults").text);
         }
 

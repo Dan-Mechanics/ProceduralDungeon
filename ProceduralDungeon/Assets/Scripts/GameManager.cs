@@ -7,36 +7,36 @@ namespace ProceduralDungeon
 {
     public class GameManager : MonoBehaviour
     {
+        [SerializeField] private List<TileType> tileTypes = default;
         [SerializeField] private List<GameObject> prefabs = default;
 
         private readonly Blackboard blackboard = new Blackboard();
         private readonly PersistentBlackboard persistent = new PersistentBlackboard();
         private Dungeon dungeon;
-        private CameraMover mover;
 
         private void Start()
         {
             prefabs.ForEach(x => Instantiate(x, x.transform.position, x.transform.rotation));
             FindAnyObjectByType<SceneBoilerplate>().Setup();
-            mover = FindAnyObjectByType<CameraMover>();
 
             blackboard.OnLog += Debug.Log;
             persistent.Setup(blackboard);
+
+            tileTypes.ForEach(x => blackboard.SetValue<TileType>(x.name, x));
             blackboard.LogAll();
 
-            mover.Setup(blackboard);
             List<Field> fields = FindObjectsByType<Field>(FindObjectsSortMode.None).ToList();
             fields.ForEach(x => x.Setup(blackboard));
 
-            SyncFields();
-
+            FindAnyObjectByType<CameraMover>().Setup(blackboard);
+            SendToFields();
 
             dungeon = FindAnyObjectByType<Dungeon>();
             dungeon.Setup(blackboard);
-
-            List<Button> buttons = FindObjectsByType<Button>(FindObjectsSortMode.None).ToList();
-
+            dungeon.Refresh();
+            
             // WE LOOVE PROGRAMMINNG !!! HAHAHAHA
+            List<Button> buttons = FindObjectsByType<Button>(FindObjectsSortMode.None).ToList();
             FindButton(buttons, nameof(Refresh)).onClick.AddListener(Refresh);
             FindButton(buttons, nameof(Save)).onClick.AddListener(Save);
             FindButton(buttons, nameof(Load)).onClick.AddListener(Load);
@@ -49,19 +49,17 @@ namespace ProceduralDungeon
                 FirstOrDefault();
         }
 
-        private void SyncFields()
+        private void SendToFields()
         {
             List<Field> fields = FindObjectsByType<Field>(FindObjectsSortMode.None).ToList();
             fields.ForEach(x => x.SyncWithBlackboard());
-
-            mover.Pull();
         }
 
         [ContextMenu(nameof(Refresh))]
         private void Refresh()
         {
             print(nameof(Refresh));
-            dungeon.Show();
+            dungeon.Refresh();
         }
 
         [ContextMenu(nameof(Save))]
@@ -77,7 +75,7 @@ namespace ProceduralDungeon
             print(nameof(Load));
             persistent.Load();
             Refresh(); // ??
-            SyncFields();
+            SendToFields();
         }
     }
 }

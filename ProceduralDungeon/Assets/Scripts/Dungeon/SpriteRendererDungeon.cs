@@ -44,7 +44,7 @@ namespace ProceduralDungeon
             }
         }
 
-        private void OnValidate() => parent.localPosition = offset;
+      //  private void OnValidate() => parent.localPosition = offset;
 
         [System.Serializable]
         private struct Conversion

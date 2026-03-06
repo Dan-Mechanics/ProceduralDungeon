@@ -17,13 +17,12 @@ namespace ProceduralDungeon
         public void Setup(Blackboard blackboard)
         {
             this.blackboard = blackboard;
-
             generator = GetComponent<IDungeonGenerator>();
             visualizer = GetComponent<IDungeonVisualizer>();
             decorators = GetComponents<IDungeonDecorator>().ToList();
         }
 
-        public void Show()
+        public void Refresh()
         {
             // REMOVE OLD STUFF.
             Hide();
