@@ -1,0 +1,2 @@
+i,width,10;
+f,cameraSpeed,6.0;

@@ -4,40 +4,39 @@ using UnityEngine;
 
 namespace ProceduralDungeon
 {
+    /// <summary>
+    /// Master script.
+    /// </summary>
     public class Dungeon : MonoBehaviour
     {
-        [SerializeField] private string tileTag = default;
-        [SerializeField] private RandomWalk randomWalk = default;
-        [SerializeField] private LayoutAnalyzer layoutAnalyzer = default;
-        [SerializeField] private ContentPlacer contentPlacer = default;
+        private Blackboard blackboard;
+        private IDungeonGenerator generator;
+        private List<IDungeonDecorator> decorators;
+        private IDungeonVisualizer visualizer; 
+
+        public void Setup(Blackboard blackboard)
+        {
+            this.blackboard = blackboard;
+
+            generator = GetComponent<IDungeonGenerator>();
+            visualizer = GetComponent<IDungeonVisualizer>();
+            decorators = GetComponents<IDungeonDecorator>().ToList();
+        }
 
         public void Show()
         {
-            if (!Hide())
-                return;
+            // REMOVE OLD STUFF.
+            Hide();
 
-            Tile[,] tiles = GetTiles(randomWalk, new List<ILayoutDecorator>() { layoutAnalyzer, contentPlacer });
-            GetComponent<IDungeonVisualizer>().Visualize(tiles);
+            TileType[,] tiles = generator.Generate(blackboard);
+            decorators.ForEach(x => x.Decorate(tiles, blackboard));
+            visualizer.Visualize(tiles);
         }
 
-        public bool Hide() 
+        public void Hide() 
         {
-            if (string.IsNullOrEmpty(tileTag) || string.IsNullOrWhiteSpace(tileTag) || tileTag == "Untagged") 
-            {
-                Debug.LogError($"Please correctly assign {nameof(tileTag)}. It is currently set to '{tileTag}'.");
-                return false;
-            }
-            
-            List<GameObject> tiles = GameObject.FindGameObjectsWithTag(tileTag).ToList();
+            List<GameObject> tiles = GameObject.FindGameObjectsWithTag("Tile").ToList();
             tiles.ForEach(x => DestroyImmediate(x));
-            return true;
-        }
-
-        private Tile[,] GetTiles(ILayoutGenerator generator, List<ILayoutDecorator> decorators)
-        {
-            Tile[,] tiles = generator.Generate();
-            decorators.ForEach(x => x.Decorate(tiles));
-            return tiles;
         }
     }
 }

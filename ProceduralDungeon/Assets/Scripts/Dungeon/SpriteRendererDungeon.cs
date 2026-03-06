@@ -1,0 +1,56 @@
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+
+namespace ProceduralDungeon
+{
+    public class SpriteRendererDungeon : MonoBehaviour, IDungeonVisualizer
+    {
+        [SerializeField] private GameObject prefab = default;
+        [SerializeField] private Transform parent = default;
+        [SerializeField] private float spacing = default;
+        [SerializeField] private Vector2 offset = default;
+        [SerializeField] private Conversion[] conversions = default;
+        private readonly Dictionary<TileType, Conversion> dictionary = new Dictionary<TileType, Conversion>();
+
+        public void Setup()
+        {
+            conversions.ToList().ForEach(x => dictionary.Add(x.type, x));
+        }
+
+        /// <summary>
+        /// Make sure to call Setup().
+        /// </summary>
+        public void Visualize(TileType[,] tiles)
+        {
+            int width = tiles.GetLength(0);
+            int height = tiles.GetLength(1);
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    TileType type = tiles[x, y];
+                    Transform trans = Instantiate(prefab).transform;
+                    SpriteRenderer rend = trans.GetComponent<SpriteRenderer>();
+
+                    trans.SetParent(parent);
+                    trans.name = $"{new string(' ', y)}{prefab.name}_[{x}_{y}]_{type.name}".ToLowerInvariant();
+                    trans.localPosition = new Vector3(spacing * x, spacing * y, 0f);
+                    trans.localRotation = Quaternion.identity;
+                    trans.localScale = Vector3.one * spacing;
+
+                    rend.sprite = dictionary[type].sprite;
+                }
+            }
+        }
+
+        private void OnValidate() => parent.localPosition = offset;
+
+        [System.Serializable]
+        private struct Conversion
+        {
+            public TileType type;
+            public Sprite sprite;
+        }
+    }
+}
