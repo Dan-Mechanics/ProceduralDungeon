@@ -59,7 +59,7 @@ namespace ProceduralDungeon
                     SetValue(key, bool.Parse(value));
                     break;
                 case 's':
-                    SetValue(key, value);
+                    SetValue(key, value.Replace("'", string.Empty));
                     break;
                 default:
                     break;
@@ -83,7 +83,7 @@ namespace ProceduralDungeon
                 }
                 else if (value is string s)
                 {
-                    builder.Append($"{nameof(s)},{key},{s}");
+                    builder.Append($"{nameof(s)},{key},'{s}'");
                 }
                 else if (value is bool b)
                 {
