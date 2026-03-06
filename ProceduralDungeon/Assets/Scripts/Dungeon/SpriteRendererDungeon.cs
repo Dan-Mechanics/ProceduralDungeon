@@ -7,16 +7,12 @@ namespace ProceduralDungeon
     public class SpriteRendererDungeon : MonoBehaviour, IDungeonVisualizer
     {
         [SerializeField] private GameObject prefab = default;
-        [SerializeField] private Transform parent = default;
+        [SerializeField] private float size = default;
         [SerializeField] private float spacing = default;
-        [SerializeField] private Vector2 offset = default;
         [SerializeField] private Conversion[] conversions = default;
-        private readonly Dictionary<TileType, Conversion> dictionary = new Dictionary<TileType, Conversion>();
+        private readonly Dictionary<TileType, Conversion> dict = new Dictionary<TileType, Conversion>();
 
-        public void Setup()
-        {
-            conversions.ToList().ForEach(x => dictionary.Add(x.type, x));
-        }
+        public void Setup() => conversions.ToList().ForEach(x => dict.Add(x.type, x));
 
         /// <summary>
         /// Make sure to call Setup().
@@ -33,18 +29,15 @@ namespace ProceduralDungeon
                     Transform trans = Instantiate(prefab).transform;
                     SpriteRenderer rend = trans.GetComponent<SpriteRenderer>();
 
-                    trans.SetParent(parent);
                     trans.name = $"{new string(' ', y)}{prefab.name}_[{x}_{y}]_{type.name}".ToLowerInvariant();
-                    trans.localPosition = new Vector3(spacing * x, spacing * y, 0f);
+                    trans.localPosition = new Vector3(size * spacing * x, size * spacing * y, 0f);
                     trans.localRotation = Quaternion.identity;
-                    trans.localScale = Vector3.one * spacing;
+                    trans.localScale = Vector3.one * size;
 
-                    rend.sprite = dictionary[type].sprite;
+                    rend.sprite = dict[type].sprite;
                 }
             }
         }
-
-      //  private void OnValidate() => parent.localPosition = offset;
 
         [System.Serializable]
         private struct Conversion

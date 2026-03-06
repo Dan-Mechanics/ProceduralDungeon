@@ -7,16 +7,17 @@ namespace ProceduralDungeon
     /// </summary>
     public class RandomWalk : MonoBehaviour, IDungeonGenerator 
     {
+        [SerializeField] private TileType air = default;
+        [SerializeField] private TileType stone = default;
+
+        // YOU COULD MAKE THESE BLACKBOARD IN THE FUTURE.
+        [SerializeField] private int width = default;
+        [SerializeField] private int height = default;
+
         public TileType[,] Generate(Blackboard blackboard)
         {
-            int width = blackboard.GetValue<int>(nameof(width));
-            int height = blackboard.GetValue<int>(nameof(height));
-
             string seed = blackboard.GetValue<string>(nameof(seed));
             float stonePercentage = blackboard.GetValue<float>(nameof(stonePercentage));
-
-            TileType air = blackboard.GetValue<TileType>(nameof(air));
-            TileType stone = blackboard.GetValue<TileType>(nameof(stone));
 
             // ===
 

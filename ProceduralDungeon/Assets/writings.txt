@@ -1,2 +1,0 @@
-note: there might be a time where we have to seperate the idea of 
-a decorator into a content placer and anylizer because we then have a strucut of metadata about the dungeon

@@ -6,9 +6,6 @@ namespace ProceduralDungeon
 {
     public class ContentPlacer : MonoBehaviour, IDungeonDecorator
     {
-        public void Decorate(TileType[,] tiles, Blackboard blackboard)
-        {
-            throw new System.NotImplementedException();
-        }
+        public void Decorate(TileType[,] tiles, Blackboard blackboard) { }
     }
 }

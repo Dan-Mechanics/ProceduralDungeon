@@ -7,7 +7,6 @@ namespace ProceduralDungeon
 {
     public class GameManager : MonoBehaviour
     {
-        [SerializeField] private List<TileType> tileTypes = default;
         [SerializeField] private List<GameObject> prefabs = default;
 
         private readonly Blackboard blackboard = new Blackboard();
@@ -21,8 +20,6 @@ namespace ProceduralDungeon
 
             blackboard.OnLog += Debug.Log;
             persistent.Setup(blackboard);
-
-            tileTypes.ForEach(x => blackboard.SetValue<TileType>(x.name, x));
             blackboard.LogAll();
 
             List<Field> fields = FindObjectsByType<Field>(FindObjectsSortMode.None).ToList();
@@ -31,6 +28,7 @@ namespace ProceduralDungeon
             FindAnyObjectByType<CameraMover>().Setup(blackboard);
             SendToFields();
 
+            FindAnyObjectByType<SpriteRendererDungeon>().Setup();
             dungeon = FindAnyObjectByType<Dungeon>();
             dungeon.Setup(blackboard);
             dungeon.Refresh();

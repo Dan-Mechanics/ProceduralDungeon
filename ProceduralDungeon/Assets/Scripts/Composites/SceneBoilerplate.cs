@@ -14,6 +14,7 @@ namespace ProceduralDungeon
 
         public void Setup()
         {
+            gameObject.name = "scene_boilerplate";
             Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
 
             Application.targetFrameRate = fps;
