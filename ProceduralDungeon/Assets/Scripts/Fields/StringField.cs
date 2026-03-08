@@ -31,6 +31,14 @@ namespace ProceduralDungeon
             }
         }
 
-        public override void GetFromBlackboard() => inputField.text = blackboard.GetValue<string>(key);
+        public override void GetFromBlackboard()
+        {
+            string str = blackboard.GetValue<string>(key);
+            if (!Utils.IsStringValid(str) || str.Length > MAX_STRING_LENGTH)
+                str = "default";
+
+            inputField.text = str;
+            SendToBlackboard(str);
+        }
     }
 }

@@ -1,3 +1,4 @@
-string,seed,"default";
 float,cameraSpeed,12;
 int,iterations,17;
+string,seed,"dungeon";
+string,name,"Dan-Mechanics";
