@@ -1,4 +1,4 @@
-float,cameraSpeed,12;
-int,iterations,17;
-string,seed,"dungeon";
-string,name,"Dan-Mechanics";
+text,name,"Dan-Mechanics";
+decimal,cameraSpeed,11.97143;
+whole,iterations,26;
+text,seed,"dungeon";

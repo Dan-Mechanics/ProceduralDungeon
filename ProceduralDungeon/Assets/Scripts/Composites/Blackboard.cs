@@ -6,10 +6,10 @@ namespace ProceduralDungeon
 {
     public class Blackboard 
     {
-        private const string STRING = "string";
-        private const string INT = "int";
-        private const string FLOAT = "float";
-        private const string BOOL = "bool";
+        private const string STRING = "text";
+        private const string INT = "whole";
+        private const string FLOAT = "decimal";
+        private const string BOOL = "yesno";
         private const char QUOTE = '"';
         
         public event Action<string> OnLog;
