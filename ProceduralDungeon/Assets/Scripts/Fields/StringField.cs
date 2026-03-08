@@ -16,7 +16,7 @@ namespace ProceduralDungeon
             base.Setup(blackboard);
             inputField.onEndEdit.AddListener(SendToBlackboard);
             placeholder.text = Key;
-            text.text = Key;
+            text.text = Key.ToUpperInvariant();
         }
 
         private void SendToBlackboard(string str)

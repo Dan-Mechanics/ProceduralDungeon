@@ -7,66 +7,102 @@ namespace ProceduralDungeon
     /// </summary>
     public class Cellular : MonoBehaviour, IDungeonGenerator 
     {
-        [SerializeField] private TileType red = default;
-        [SerializeField] private TileType green = default;
-        [SerializeField] private TileType blue = default;
+        public enum Faction { Red, Green, Blue }
+        
         [SerializeField] private TileType stone = default;
         [SerializeField] private int width = default;
         [SerializeField] private int height = default;
 
-        private TileType GetRandomFaction()
+        private Faction GetRandomFaction() => (Faction)Random.Range(0, 3);
+
+        private Faction GetFood(Faction attacker)
         {
-            int faction = Random.Range(0, 3);
-            switch (faction)
+            return attacker switch
             {
-                case 0:
-                    return red;
-                case 1:
-                    return green;
-                case 2:
-                    return blue;
-                default:
-                    throw new System.Exception();
-            }
+                Faction.Red => Faction.Green,
+                Faction.Green => Faction.Blue,
+                Faction.Blue => Faction.Red,
+                _ => throw new System.Exception(),
+            };
         }
 
         public TileType[,] Generate(Blackboard blackboard)
         {
-            string seed = blackboard.GetValue<string>(nameof(seed));
-          // int iterations = blackboard.GetValue<int>(nameof(iterations));
-          // int walkLength = blackboard.GetValue<int>(nameof(walkLength));
-          // bool resetEachWalk = blackboard.GetValue<int>(nameof(resetEachWalk)) == 1;
-          // bool backtracking = blackboard.GetValue<int>(nameof(backtracking)) == 1;
+            int iterations = blackboard.GetValue<int>(nameof(iterations));
+            int backtracking = blackboard.GetValue<int>(nameof(backtracking));
 
+            string seed = blackboard.GetValue<string>(nameof(seed));
             Random.InitState(seed.GetHashCode());
+
+            Faction[,] readBuffer = new Faction[width, height];
+            Faction[,] writeBuffer = new Faction[width, height];
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    readBuffer[x, y] = GetRandomFaction();
+                    writeBuffer[x, y] = readBuffer[x, y];
+                }
+            }
+
+            Faction attacker = Faction.Red;
+            Faction food = GetFood(attacker);
+            for (int i = 0; i < iterations; i++)
+            {
+                Simulate(attacker, food, readBuffer, writeBuffer);
+                attacker = food;
+                food = GetFood(attacker);
+
+                for (int x = 0; x < width; x++)
+                {
+                    for (int y = 0; y < height; y++)
+                    {
+                        readBuffer[x, y] = writeBuffer[x, y];
+                    }
+                }
+            }
+
+            Faction screenshot = (Faction)backtracking;
             TileType[,] tiles = new TileType[width, height];
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < height; y++)
                 {
-                    tiles[x, y] = GetRandomFaction();
-                    if(tiles[x,y] == red)
-                    {
+                    if (readBuffer[x, y] == screenshot)
                         tiles[x, y] = stone;
-                    }
-                    else
-                    {
-                        tiles[x, y] = null;
-                    }
                 }
             }
 
-           /* Vector2Int center = new Vector2Int(Mathf.RoundToInt(width / 2f), Mathf.RoundToInt(height / 2f));
-            if (backtracking)
-            {
-                SimpleWalk(tiles, center, iterations, walkLength, resetEachWalk);
-            }
-            else
-            {
-                WalkNoBacktracking(tiles, center, iterations, walkLength, resetEachWalk);
-            }*/
-
             return tiles;
+        }
+
+        private void Simulate(Faction attacker, Faction food, Faction[,] readBuffer, Faction[,] writeBuffer)
+        {
+            for (int x = 1; x < width - 1; x++)
+            {
+                for (int y = 1; y < height - 1; y++)
+                {
+                    if (readBuffer[x, y] == attacker)
+                        Spread(x, y, attacker, food, readBuffer, writeBuffer);
+                }
+            }
+        }
+
+        private void Spread(int parentX, int parentY, Faction attacker, Faction food, Faction[,] readBuffer, Faction[,] writeBuffer)
+        {
+            for (int x = -1; x <= 1; x++)
+            {
+                for (int y = -1; y <= 1; y++)
+                {
+                    /*if (x == y)
+                        continue;*/
+                    
+                    int newX = x + parentX;
+                    int newY = y + parentY;
+                    if (readBuffer[newX, newY] == food)
+                        writeBuffer[newX, newY] = attacker;
+                }
+            }
         }
     }
 }
