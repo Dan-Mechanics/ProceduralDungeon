@@ -8,11 +8,8 @@ namespace ProceduralDungeon
     {
         private Blackboard blackboard;
 
-        public void Setup(Blackboard blackboard)
-        {
-            this.blackboard = blackboard;
-            blackboard.LoadFromString(Resources.Load<TextAsset>("defaults").text);
-        }
+        public void Setup(Blackboard blackboard) => this.blackboard = blackboard;
+        public void LoadFromResources(string name) => blackboard.LoadFromString(Resources.Load<TextAsset>(name).text);
 
         public void Save()
         {

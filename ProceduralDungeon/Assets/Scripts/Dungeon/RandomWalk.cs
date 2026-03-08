@@ -3,7 +3,7 @@ using UnityEngine;
 namespace ProceduralDungeon
 {
     /// <summary>
-    /// doesnt need to be mono anymore/
+    /// https://www.youtube.com/watch?v=stgYW6M5o4k
     /// </summary>
     public class RandomWalk : MonoBehaviour, IDungeonGenerator 
     {

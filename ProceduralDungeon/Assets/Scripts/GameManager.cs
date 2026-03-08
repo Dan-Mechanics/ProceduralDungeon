@@ -9,38 +9,62 @@ namespace ProceduralDungeon
     {
         [SerializeField] private List<GameObject> prefabs = default;
 
-        private readonly Blackboard blackboard = new Blackboard();
-        private readonly PersistentBlackboard persistent = new PersistentBlackboard();
+        private Blackboard blackboard;
+        private PersistentBlackboard persistent;
+        private SceneBoilerplate sceneBoilerplate;
+        private List<Field> fields;
+        private List<Button> buttons;
+        private CameraMover cameraMover;
+        private SpriteRendererDungeon spriteRendererDungeon;
         private Dungeon dungeon;
 
-        private void Start()
+        /// <summary>
+        /// Get / init the references, order not important.
+        /// </summary>
+        private void Awake()
         {
-            prefabs.ForEach(x => Instantiate(x, x.transform.position, x.transform.rotation));
-            FindAnyObjectByType<SceneBoilerplate>().Setup();
-
-            blackboard.OnLog += Debug.Log;
-            persistent.Setup(blackboard);
-            blackboard.LogAll();
-
-            List<Field> fields = FindObjectsByType<Field>(FindObjectsSortMode.None).ToList();
-            fields.ForEach(x => x.Setup(blackboard));
-
-            FindAnyObjectByType<CameraMover>().Setup(blackboard);
-            MatchFieldsToBlackboard();
-
-            FindAnyObjectByType<SpriteRendererDungeon>().Setup();
-            dungeon = FindAnyObjectByType<Dungeon>();
-            dungeon.Setup(blackboard);
-            //dungeon.Refresh();
+            blackboard = new Blackboard();
+            persistent = new PersistentBlackboard();
             
-            // WE LOOVE PROGRAMMINNG !!! HAHAHAHA
-            List<Button> buttons = FindObjectsByType<Button>(FindObjectsSortMode.None).ToList();
-            FindButton(buttons, nameof(Refresh)).onClick.AddListener(Refresh);
-            FindButton(buttons, nameof(Save)).onClick.AddListener(Save);
-            FindButton(buttons, nameof(Load)).onClick.AddListener(Load);
+            // SPAWN PREFABS.
+            prefabs.ForEach(x => Instantiate(x, x.transform.position, x.transform.rotation));
+
+            sceneBoilerplate = FindAnyObjectByType<SceneBoilerplate>();
+            fields = FindObjectsByType<Field>(FindObjectsSortMode.None).ToList();
+            buttons = FindObjectsByType<Button>(FindObjectsSortMode.None).ToList();
+            cameraMover = FindAnyObjectByType<CameraMover>();
+            spriteRendererDungeon = FindAnyObjectByType<SpriteRendererDungeon>();
+            dungeon = FindAnyObjectByType<Dungeon>();
         }
 
-        private Button FindButton(List<Button> buttons, string methodName)
+        /// <summary>
+        /// Use the references for setup / assign, order is important.
+        /// </summary>
+        private void Start()
+        {
+            sceneBoilerplate.Setup();
+            blackboard.OnLog += Debug.Log;
+
+            persistent.Setup(blackboard);
+            persistent.LoadFromResources("defaults");
+
+            fields.ForEach(x => x.Setup(blackboard));
+            cameraMover.Setup(blackboard);
+
+            spriteRendererDungeon.Setup();
+            dungeon.Setup(blackboard);
+
+            GetButtonByName(buttons, nameof(Refresh)).onClick.AddListener(Refresh);
+            GetButtonByName(buttons, nameof(Save)).onClick.AddListener(Save);
+            GetButtonByName(buttons, nameof(Load)).onClick.AddListener(Load);
+
+            // ===
+
+            blackboard.LogAll();
+            MatchFieldsToBlackboard();
+        }
+
+        private Button GetButtonByName(List<Button> buttons, string methodName)
         {
             return buttons.
                 Where(x => x.gameObject.name == methodName.ToLowerInvariant()).
@@ -72,8 +96,8 @@ namespace ProceduralDungeon
         {
             print(nameof(Load));
             persistent.Load();
-            //Refresh(); // ??
             MatchFieldsToBlackboard();
+            // Refresh();
         }
     }
 }

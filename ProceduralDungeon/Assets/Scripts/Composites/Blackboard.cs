@@ -24,9 +24,8 @@ namespace ProceduralDungeon
 
                 try
                 {
-                    // THERE IS A REASON COUNT == 4 BUT I CAN'T REMEMBER.
                     string[] tokens = line.Split(',', 4);
-                    AddEntry(tokens[0].Trim()[0], tokens[1].Trim(), tokens[2]);
+                    ParseTokens(tokens[0].Trim()[0], tokens[1].Trim(), tokens[2]);
                 }
                 catch (Exception exception)
                 {
@@ -35,7 +34,7 @@ namespace ProceduralDungeon
             }
         }
 
-        private void AddEntry(char type, string key, string value)
+        private void ParseTokens(char type, string key, string value)
         {
             type = type.ToString().ToLowerInvariant()[0];
             switch (type)
@@ -61,7 +60,6 @@ namespace ProceduralDungeon
         {
             foreach (KeyValuePair<string, object> pair in dictionary)
             {
-                //OnLog?.Invoke($"'{pair.Key}'_'{pair.Value}'");
                 OnLog?.Invoke($"'{pair.Key}'   '{pair.Value}'");
             }
         }
@@ -75,19 +73,19 @@ namespace ProceduralDungeon
                 object value = pair.Value;
                 if (value is float f)
                 {
-                    builder.Append($"{nameof(f)},{key},{f}");
+                    builder.Append($"f,{key},{f}");
                 }
                 else if (value is int i)
                 {
-                    builder.Append($"{nameof(i)},{key},{i}");
+                    builder.Append($"i,{key},{i}");
                 }
                 else if (value is string s)
                 {
-                    builder.Append($"{nameof(s)},{key},'{s}'");
+                    builder.Append($"s,{key},'{s}'");
                 }
                 else if (value is bool b)
                 {
-                    builder.Append($"{nameof(b)},{key},{b}");
+                    builder.Append($"b,{key},{b}");
                 }
                 else
                 {
