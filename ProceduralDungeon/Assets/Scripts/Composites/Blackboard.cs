@@ -6,6 +6,12 @@ namespace ProceduralDungeon
 {
     public class Blackboard 
     {
+        // THIS IS REALLY FUNNY:
+        private const string STRING = "text";
+        private const string INT = "whole";
+        private const string FLOAT = "decimal";
+        private const string BOOL = "yesno";
+        
         public event Action<string> OnLog;
         private readonly Dictionary<string, object> dictionary = new Dictionary<string, object>();
 
@@ -25,7 +31,7 @@ namespace ProceduralDungeon
                 try
                 {
                     string[] tokens = line.Split(',', 4);
-                    ParseTokens(tokens[0].Trim()[0], tokens[1].Trim(), tokens[2]);
+                    ParseTokens(tokens[0].Trim(), tokens[1].Trim(), tokens[2].Trim());
                 }
                 catch (Exception exception)
                 {
@@ -34,22 +40,33 @@ namespace ProceduralDungeon
             }
         }
 
-        private void ParseTokens(char type, string key, string value)
+        private void ParseTokens(string type, string key, string value)
         {
-            type = type.ToString().ToLowerInvariant()[0];
+            type = type.ToLowerInvariant();
             switch (type)
             {
-                case 'f':
+                case FLOAT:
                     SetValue(key, float.Parse(value));
                     break;
-                case 'i':
+                case INT:
                     SetValue(key, int.Parse(value));
                     break;
-                case 'b':
+                case BOOL:
                     SetValue(key, bool.Parse(value));
                     break;
-                case 's':
-                    SetValue(key, value.Replace("'", string.Empty));
+                case STRING:
+                    if (!Utils.IsStringValid(value))
+                        break;
+
+                    if (value.Length <= 1 || value[0] != '"' || value[1] != '"')
+                    {
+                        SetValue(key, value);
+                        break;
+                    }
+
+                    // https://www.w3resource.com/csharp-exercises/basic/csharp-basic-exercise-70.php
+                    // REMOVE FIRST + LAST CHARACTERS OF STRING, REMOVE THE ''.
+                    SetValue(key, value.Substring(1, value.Length - 2));
                     break;
                 default:
                     break;
@@ -73,19 +90,19 @@ namespace ProceduralDungeon
                 object value = pair.Value;
                 if (value is float f)
                 {
-                    builder.Append($"f,{key},{f}");
+                    builder.Append($"{FLOAT},{key},{f}");
                 }
                 else if (value is int i)
                 {
-                    builder.Append($"i,{key},{i}");
+                    builder.Append($"{INT},{key},{i}");
                 }
                 else if (value is string s)
                 {
-                    builder.Append($"s,{key},'{s}'");
+                    builder.Append($"{STRING},{key},\"{s}\"");
                 }
                 else if (value is bool b)
                 {
-                    builder.Append($"b,{key},{b}");
+                    builder.Append($"{BOOL},{key},{b}");
                 }
                 else
                 {

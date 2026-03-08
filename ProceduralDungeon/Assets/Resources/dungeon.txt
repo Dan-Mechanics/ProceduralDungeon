@@ -1,3 +1,0 @@
-s,seed,'default';
-f,stonePercentage,0.4;
-f,cameraSpeed,3.642857;
