@@ -6,10 +6,10 @@ namespace ProceduralDungeon
 {
     public class Blackboard 
     {
-        private const string STRING = "text";
-        private const string INT = "whole";
-        private const string FLOAT = "decimal";
-        private const string BOOL = "yesno";
+        private const string STRING = "string";
+        private const string INT = "int";
+        private const string FLOAT = "float";
+        private const string BOOL = "bool";
         private const char QUOTE = '"';
         
         public event Action<string> OnLog;
@@ -90,7 +90,12 @@ namespace ProceduralDungeon
                 object value = pair.Value;
                 if (value is float f)
                 {
-                    builder.Append($"{FLOAT},{key},{f}");
+                    string format = f.ToString();
+                    format.Replace(',', '.');
+                    if (!format.Contains('.'))
+                        format += ".0";
+
+                    builder.Append($"{FLOAT},{key},{format}");
                 }
                 else if (value is int i)
                 {

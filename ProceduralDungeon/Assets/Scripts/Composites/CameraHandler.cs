@@ -2,12 +2,14 @@ using UnityEngine;
 
 namespace ProceduralDungeon
 {
-    public class CameraMover : MonoBehaviour
+    public class CameraHandler : MonoBehaviour
     {
-        [SerializeField] private float pullInterval = default;
+        [SerializeField] private Camera cam = default;
+        [SerializeField] private float interval = default;
         
         private Blackboard blackboard;
         private float cameraSpeed;
+        private float zoom;
 
         public void Setup(Blackboard blackboard) => this.blackboard = blackboard;
         private float nextSync;
@@ -17,13 +19,15 @@ namespace ProceduralDungeon
             if (Time.time >= nextSync)
             {
                 cameraSpeed = blackboard.GetValue<float>(nameof(cameraSpeed));
-                nextSync = Time.time + pullInterval;
+                zoom = blackboard.GetValue<float>(nameof(zoom));
+                nextSync = Time.time + interval;
             }
             
             Vector3 movement = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), 0f);
             movement.Normalize();
 
             transform.Translate(cameraSpeed * Time.deltaTime * movement);
+            cam.orthographicSize = zoom;
         }
     }
 }

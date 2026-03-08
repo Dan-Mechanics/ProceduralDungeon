@@ -15,15 +15,15 @@ namespace ProceduralDungeon
         {
             base.Setup(blackboard);
             inputField.onEndEdit.AddListener(SendToBlackboard);
-            placeholder.text = key;
-            text.text = key;
+            placeholder.text = Key;
+            text.text = Key;
         }
 
         private void SendToBlackboard(string str)
         {
             if (Utils.IsStringValid(str) && str.Length <= MAX_STRING_LENGTH)
             {
-                blackboard.SetValue(key, str);
+                blackboard.SetValue(Key, str);
             }
             else
             {
@@ -33,7 +33,7 @@ namespace ProceduralDungeon
 
         public override void GetFromBlackboard()
         {
-            string str = blackboard.GetValue<string>(key);
+            string str = blackboard.GetValue<string>(Key);
             if (!Utils.IsStringValid(str) || str.Length > MAX_STRING_LENGTH)
                 str = "default";
 

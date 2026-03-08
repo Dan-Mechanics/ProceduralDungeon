@@ -4,7 +4,7 @@ namespace ProceduralDungeon
 {
     public abstract class Field : MonoBehaviour
     {
-        [SerializeField] protected string key = default;
+        public string Key => gameObject.name;
         protected Blackboard blackboard;
 
         public virtual void Setup(Blackboard blackboard) => this.blackboard = blackboard;

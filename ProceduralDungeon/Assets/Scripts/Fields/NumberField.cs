@@ -25,7 +25,7 @@ namespace ProceduralDungeon
             slider.onValueChanged.AddListener(SendToBlackboard);
             inputField.onEndEdit.AddListener(OnEndEdit);
 
-            text.text = key;
+            text.text = Key;
             placeholder.text = $"{(slider.wholeNumbers ? "int" : "float")}: {slider.minValue}_{slider.maxValue}";
         }
 
@@ -56,11 +56,11 @@ namespace ProceduralDungeon
 
             if (wholeNumbers)
             {
-                blackboard.SetValue(key, (int)value);
+                blackboard.SetValue(Key, (int)value);
             }
             else
             {
-                blackboard.SetValue(key, value);
+                blackboard.SetValue(Key, value);
             }
         }
 
@@ -68,11 +68,11 @@ namespace ProceduralDungeon
         {
             if (wholeNumbers)
             {
-                slider.value = blackboard.GetValue<int>(key);
+                slider.value = blackboard.GetValue<int>(Key);
             }
             else
             {
-                slider.value = blackboard.GetValue<float>(key);
+                slider.value = blackboard.GetValue<float>(Key);
             }
 
             inputField.text = slider.value.ToString();

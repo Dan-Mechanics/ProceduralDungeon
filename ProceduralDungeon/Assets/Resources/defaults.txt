@@ -1,4 +1,7 @@
-text,name,"Dan-Mechanics";
-decimal,cameraSpeed,11.97143;
-whole,iterations,26;
-text,seed,"dungeon";
+string,seed,"dungeon";
+int,iterations,25;
+float,cameraSpeed,25.0;
+int,resetEachWalk,0;
+int,walkLength,25;
+float,zoom,15.0;
+int,backtracking,1;

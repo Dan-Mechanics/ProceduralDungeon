@@ -29,6 +29,9 @@ namespace ProceduralDungeon
                 for (int y = 0; y < height; y++)
                 {
                     TileType type = tiles[x, y];
+                    if (type == null)
+                        continue;
+
                     Transform trans = Instantiate(prefab).transform;
                     SpriteRenderer rend = trans.GetComponent<SpriteRenderer>();
 
@@ -42,6 +45,10 @@ namespace ProceduralDungeon
                     rend.sprite = dict[type].sprite;
                 }
             }
+
+            float offsetX = size * spacing * width;
+            float offsetY = size * spacing * height;
+            offset.localPosition = new Vector3(offsetX, offsetY, 0f) * -0.5f;
         }
 
         [System.Serializable]

@@ -14,7 +14,7 @@ namespace ProceduralDungeon
         private SceneBoilerplate sceneBoilerplate;
         private List<Field> fields;
         private List<Button> buttons;
-        private CameraMover cameraMover;
+        private CameraHandler cameraHandler;
         private SpriteRendererDungeon spriteRendererDungeon;
         private Dungeon dungeon;
 
@@ -32,7 +32,7 @@ namespace ProceduralDungeon
             sceneBoilerplate = FindAnyObjectByType<SceneBoilerplate>();
             fields = FindObjectsByType<Field>(FindObjectsSortMode.None).ToList();
             buttons = FindObjectsByType<Button>(FindObjectsSortMode.None).ToList();
-            cameraMover = FindAnyObjectByType<CameraMover>();
+            cameraHandler = FindAnyObjectByType<CameraHandler>();
             spriteRendererDungeon = FindAnyObjectByType<SpriteRendererDungeon>();
             dungeon = FindAnyObjectByType<Dungeon>();
         }
@@ -49,12 +49,12 @@ namespace ProceduralDungeon
             persistent.LoadFromResources("defaults");
 
             fields.ForEach(x => x.Setup(blackboard));
-            cameraMover.Setup(blackboard);
+            cameraHandler.Setup(blackboard);
 
             spriteRendererDungeon.Setup();
             dungeon.Setup(blackboard);
 
-            GetButtonByName(buttons, nameof(Refresh)).onClick.AddListener(Refresh);
+            GetButtonByName(buttons, nameof(Show)).onClick.AddListener(Show);
             GetButtonByName(buttons, nameof(Save)).onClick.AddListener(Save);
             GetButtonByName(buttons, nameof(Load)).onClick.AddListener(Load);
 
@@ -77,10 +77,10 @@ namespace ProceduralDungeon
             fields.ForEach(x => x.GetFromBlackboard());
         }
 
-        [ContextMenu(nameof(Refresh))]
-        private void Refresh()
+        [ContextMenu(nameof(Show))]
+        private void Show()
         {
-            print(nameof(Refresh));
+            print(nameof(Show));
             dungeon.Refresh();
         }
 
