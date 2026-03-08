@@ -1,3 +1,3 @@
-text,seed,"default";
-decimal,stonePercentage,0.4;
-decimal,cameraSpeed,15;
+string,seed,"default";
+float,cameraSpeed,12;
+int,iterations,17;

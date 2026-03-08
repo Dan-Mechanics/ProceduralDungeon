@@ -6,11 +6,11 @@ namespace ProceduralDungeon
 {
     public class Blackboard 
     {
-        // THIS IS REALLY FUNNY:
-        private const string STRING = "text";
-        private const string INT = "whole";
-        private const string FLOAT = "decimal";
-        private const string BOOL = "yesno";
+        private const string STRING = "string";
+        private const string INT = "int";
+        private const string FLOAT = "float";
+        private const string BOOL = "bool";
+        private const char QUOTE = '"';
         
         public event Action<string> OnLog;
         private readonly Dictionary<string, object> dictionary = new Dictionary<string, object>();
@@ -30,7 +30,7 @@ namespace ProceduralDungeon
 
                 try
                 {
-                    string[] tokens = line.Split(',', 4);
+                    string[] tokens = line.Split(',', 3);
                     ParseTokens(tokens[0].Trim(), tokens[1].Trim(), tokens[2].Trim());
                 }
                 catch (Exception exception)
@@ -42,33 +42,33 @@ namespace ProceduralDungeon
 
         private void ParseTokens(string type, string key, string value)
         {
+            if (!Utils.IsStringValid(type) || !Utils.IsStringValid(key) || !Utils.IsStringValid(value))
+                return;
+
             type = type.ToLowerInvariant();
             switch (type)
             {
                 case FLOAT:
-                    SetValue(key, float.Parse(value));
+                    SetValue(key, float.Parse(value.Replace(',', '.')));
                     break;
                 case INT:
-                    SetValue(key, int.Parse(value));
+                    SetValue(key, int.Parse(value.Replace(",", string.Empty).Replace(".", string.Empty)));
                     break;
                 case BOOL:
-                    SetValue(key, bool.Parse(value));
+                    SetValue(key, bool.Parse(value.ToLowerInvariant()));
                     break;
                 case STRING:
-                    if (!Utils.IsStringValid(value))
-                        break;
-
-                    if (value.Length <= 1 || value[0] != '"' || value[1] != '"')
+                    if (value.Length <= 1 || value[0] != QUOTE || value[^1 ] != QUOTE)
                     {
                         SetValue(key, value);
                         break;
                     }
 
-                    // https://www.w3resource.com/csharp-exercises/basic/csharp-basic-exercise-70.php
-                    // REMOVE FIRST + LAST CHARACTERS OF STRING, REMOVE THE ''.
+                    // REMOVE FIRST + LAST CHARACTERS OF STRING, REMOVE THE "".
                     SetValue(key, value.Substring(1, value.Length - 2));
                     break;
                 default:
+                    OnLog?.Invoke($"Blackboard doesn't know '{type}'.");
                     break;
             }
         }

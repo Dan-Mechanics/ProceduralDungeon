@@ -9,6 +9,7 @@ namespace ProceduralDungeon
         [SerializeField] private GameObject prefab = default;
         [SerializeField] private float size = default;
         [SerializeField] private float spacing = default;
+        [SerializeField] private Transform offset = default;
         [SerializeField] private List<Conversion> conversions = default;
         private readonly Dictionary<TileType, Conversion> dict = new Dictionary<TileType, Conversion>();
 
@@ -19,6 +20,8 @@ namespace ProceduralDungeon
         /// </summary>
         public void Visualize(TileType[,] tiles)
         {
+            string str = "_";
+            
             int width = tiles.GetLength(0);
             int height = tiles.GetLength(1);
             for (int x = 0; x < width; x++)
@@ -29,7 +32,9 @@ namespace ProceduralDungeon
                     Transform trans = Instantiate(prefab).transform;
                     SpriteRenderer rend = trans.GetComponent<SpriteRenderer>();
 
-                    trans.name = $"{new string(' ', y)}{prefab.name}_[{x}_{y}]_{type.name}".ToLowerInvariant();
+                    //trans.name = $"{new string(' ', y)}{prefab.name}_[{x}_{y}]_{type.name}".ToLowerInvariant();
+                    trans.SetParent(offset);
+                    trans.name = str;
                     trans.localPosition = new Vector3(size * spacing * x, size * spacing * y, 0f);
                     trans.localRotation = Quaternion.identity;
                     trans.localScale = Vector3.one * size;

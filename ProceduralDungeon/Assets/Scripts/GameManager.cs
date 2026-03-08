@@ -60,8 +60,8 @@ namespace ProceduralDungeon
 
             // ===
 
-            blackboard.LogAll();
             MatchFieldsToBlackboard();
+            blackboard.LogAll();
         }
 
         private Button GetButtonByName(List<Button> buttons, string methodName)
