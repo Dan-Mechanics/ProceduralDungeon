@@ -92,6 +92,7 @@ namespace ProceduralDungeon
                 {
                     string format = f.ToString();
                     format.Replace(',', '.');
+                    format.Replace(';', ':');
                     if (!format.Contains('.'))
                         format += ".0";
 

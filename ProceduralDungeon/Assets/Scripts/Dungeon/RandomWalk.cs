@@ -25,6 +25,7 @@ namespace ProceduralDungeon
 
         public TileType[,] Generate(Blackboard blackboard)
         {
+            // IDEA: GO IN SAME DIRECTION TWICE FOR MORE SPACE COVERED, USE HASHSET?
             int iterations = blackboard.GetValue<int>(nameof(iterations));
             int walkLength = blackboard.GetValue<int>(nameof(walkLength));
             bool resetEachWalk = blackboard.GetValue<int>(nameof(resetEachWalk)) == 1;

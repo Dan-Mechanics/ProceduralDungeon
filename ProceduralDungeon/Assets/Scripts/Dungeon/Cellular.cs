@@ -68,6 +68,20 @@ namespace ProceduralDungeon
             {
                 for (int y = 0; y < height; y++)
                 {
+                    /*switch (readBuffer[x, y])
+                    {
+                        case Faction.Red:
+                            tiles[x, y] = red;
+                            break;
+                        case Faction.Green:
+                            tiles[x, y] = green;
+                            break;
+                        case Faction.Blue:
+                            tiles[x, y] = blue;
+                            break;
+                        default:
+                            break;
+                    }*/
                     if (readBuffer[x, y] == screenshot)
                         tiles[x, y] = stone;
                 }
@@ -96,7 +110,11 @@ namespace ProceduralDungeon
                 {
                     /*if (x == y)
                         continue;*/
-                    
+
+                    // THIS WORKS WELL:
+                    if (Random.value > 0.5)
+                        continue;
+
                     int newX = x + parentX;
                     int newY = y + parentY;
                     if (readBuffer[newX, newY] == food)
