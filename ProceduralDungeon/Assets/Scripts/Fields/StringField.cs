@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,7 @@ namespace ProceduralDungeon
         [SerializeField] private InputField inputField = default;
         [SerializeField] private Text placeholder = default;
         [SerializeField] private Text text = default;
+        [SerializeField] private List<char> bannedCharacters = default;
 
         public override void Setup(Blackboard blackboard)
         {
@@ -21,6 +23,7 @@ namespace ProceduralDungeon
 
         private void SendToBlackboard(string str)
         {
+            bannedCharacters.ForEach(x => str.Replace(x.ToString(), string.Empty));
             if (Utils.IsStringValid(str) && str.Length <= MAX_STRING_LENGTH)
             {
                 blackboard.SetValue(Key, str);
