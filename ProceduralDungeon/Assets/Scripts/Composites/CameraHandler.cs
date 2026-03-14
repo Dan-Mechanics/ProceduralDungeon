@@ -9,7 +9,7 @@ namespace ProceduralDungeon
         
         private Blackboard blackboard;
         private float cameraSpeed;
-        private float zoom;
+        private float fov;
 
         public void Setup(Blackboard blackboard) => this.blackboard = blackboard;
         private float nextSync;
@@ -19,7 +19,7 @@ namespace ProceduralDungeon
             if (Time.time >= nextSync)
             {
                 cameraSpeed = blackboard.GetValue<float>(nameof(cameraSpeed));
-                zoom = blackboard.GetValue<float>(nameof(zoom));
+                fov = blackboard.GetValue<float>(nameof(fov));
                 nextSync = Time.time + interval;
             }
             
@@ -27,7 +27,7 @@ namespace ProceduralDungeon
             movement.Normalize();
 
             transform.Translate(cameraSpeed * Time.deltaTime * movement);
-            cam.orthographicSize = zoom;
+            cam.orthographicSize = fov;
         }
     }
 }

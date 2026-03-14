@@ -9,46 +9,49 @@ namespace ProceduralDungeon
         [SerializeField] private GameObject prefab = default;
         [SerializeField] private float size = default;
         [SerializeField] private float spacing = default;
-        [SerializeField] private Transform offset = default;
-        [SerializeField] private List<Conversion> conversions = default;
-        private readonly Dictionary<TileType, Conversion> dict = new Dictionary<TileType, Conversion>();
+        [SerializeField] private Transform parent = default;
+        [SerializeField] private Conversion[] conversions = default;
+        private Dictionary<TileType, Sprite> tileTypeToSprite;
 
-        public void Setup() => conversions.ForEach(x => dict.Add(x.type, x));
+        private List<GameObject> previous = new List<GameObject>();
+
+        public void Setup()
+        {
+            tileTypeToSprite = new Dictionary<TileType, Sprite>();
+            for (int i = 0; i < conversions.Length; i++)
+            {
+                tileTypeToSprite[conversions[i].type] = conversions[i].sprite;
+            }
+        }
 
         /// <summary>
-        /// Make sure to call Setup().
+        /// TODO: make it so that it removes the old and adds the new .
         /// </summary>
-        public void Visualize(TileType[,] tiles)
+        /// <param name="tiles"></param>
+        public void Refresh(Dictionary<Vector2Int, TileType> tiles)
         {
-            string str = "_";
-            
-            int width = tiles.GetLength(0);
-            int height = tiles.GetLength(1);
-            for (int x = 0; x < width; x++)
+            for (int i = 0; i < previous.Count; i++)
             {
-                for (int y = 0; y < height; y++)
-                {
-                    TileType type = tiles[x, y];
-                    if (type == null)
-                        continue;
-
-                    Transform trans = Instantiate(prefab).transform;
-                    SpriteRenderer rend = trans.GetComponent<SpriteRenderer>();
-
-                    //trans.name = $"{new string(' ', y)}{prefab.name}_[{x}_{y}]_{type.name}".ToLowerInvariant();
-                    trans.SetParent(offset);
-                    trans.name = str;
-                    trans.localPosition = new Vector3(size * spacing * x, size * spacing * y, 0f);
-                    trans.localRotation = Quaternion.identity;
-                    trans.localScale = Vector3.one * size;
-
-                    rend.sprite = dict[type].sprite;
-                }
+                Destroy(previous[i]);
             }
+            previous.Clear();
+            
+            foreach (KeyValuePair<Vector2Int, TileType> pair in tiles)
+            {
+                TileType type = pair.Value;
+                int x = pair.Key.x;
+                int y = pair.Key.y;
 
-            float offsetX = size * spacing * width;
-            float offsetY = size * spacing * height;
-            offset.localPosition = new Vector3(offsetX, offsetY, 0f) * -0.5f;
+                Transform trans = Instantiate(prefab).transform;
+                SpriteRenderer rend = trans.GetComponent<SpriteRenderer>();
+                trans.SetParent(parent);
+                trans.localPosition = new Vector3(size * spacing * x, size * spacing * y, 0f);
+                trans.localRotation = Quaternion.identity;
+                trans.localScale = Vector3.one * size;
+
+                rend.sprite = tileTypeToSprite[type];
+                previous.Add(trans.gameObject);
+            }
         }
 
         [System.Serializable]

@@ -3,6 +3,5 @@ int,iterations,25;
 float,cameraSpeed,25.0;
 int,resetEachWalk,0;
 int,walkLength,25;
-float,zoom,15.0;
+float,fov,15.0;
 int,backtracking,1;
-int,fps,60;

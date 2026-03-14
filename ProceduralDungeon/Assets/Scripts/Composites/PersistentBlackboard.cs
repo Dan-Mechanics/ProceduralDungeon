@@ -86,7 +86,7 @@ namespace ProceduralDungeon
             {
                 case FLOAT:
                     value = value.Replace(',', '.');
-                    blackboard.SetValue(key, value);
+                    blackboard.SetValue(key, float.Parse(value));
                     break;
                 case INT:
                     value = value.Replace(",", string.Empty);

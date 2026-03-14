@@ -1,0 +1,35 @@
+ok dus we hebben een randomw walker die 
+like bijhood hoe ver hij al gelopen heeft,
+vervolgens meoten we dus room sprites hebben voor alle verschillende
+corner memes. dus like four-way, updown, etc.
+en die moeten allemaal op dezelfde grid passen want anders hebben we overlap ( niet helemaal
+minectaft but alright. )
+
+idea:
+
+maak die bullshit random walks ( heavy use of parameters )
+vervoglens die je in je analyze decorator een flood fill
+die maakt vervoglens metadata wat een dictionary is, 
+op die manier vind je deadends, daar plaats je loot, 
+also je kan op die manier bepaalde "rooms" plaatsen
+zoals library portal room etc etc
+met portal room is het bijvoorbeeld voor alle units
+die walk int > 5 en dan is odds like 0.1 -0.001x waarbij x de walk is.
+en dan niet als die al een portal heeft obvi.
+
+ik denk dat dat goed is.
+we gebruiken nog steeds prefabs voor de visual,
+maar het onthoud alles wat die al heeft en verantwrt de sprite ipv
+destroy gebruiken type beat
+we kunenn bijvoorbeeld ook zeggen dat enemies spawnen naarmate je verder in de dungeon gaat,
+en dan aan de deadends krigj je loot right, that makes sense.
+dit is een leuk idee: we gebruiken de dead-ends om de rooms in te stampen type beat ??
+want op die manier is de kans minder dat er dan een collision is, maar alsnog
+vind ik dat niet zo erg eitherway.
+
+LayoutGenerator
+Analyzer
+Finalizer
+ofzo
+
+oh well, morgen gaan we verder.

@@ -1,7 +1,10 @@
+using System.Collections.Generic;
+using UnityEngine;
+
 namespace ProceduralDungeon
 {
     public interface IDungeonGenerator
     {
-        public TileType[,] Generate(Blackboard blackboard); 
+        public Dictionary<Vector2Int, TileType> Generate(Blackboard blackboard); 
     }
 }

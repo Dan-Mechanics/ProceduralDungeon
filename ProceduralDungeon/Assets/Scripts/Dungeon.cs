@@ -8,30 +8,22 @@ namespace ProceduralDungeon
     {
         private Blackboard blackboard;
         private IDungeonGenerator generator;
-        private List<IDungeonDecorator> decorators;
+    //    private List<IDungeonDecorator> decorators;
         private IDungeonVisualizer visualizer; 
 
         public void Setup(Blackboard blackboard)
         {
             this.blackboard = blackboard;
             generator = GetComponent<IDungeonGenerator>();
+           // decorators = GetComponents<IDungeonDecorator>().ToList();
             visualizer = GetComponent<IDungeonVisualizer>();
-            decorators = GetComponents<IDungeonDecorator>().ToList();
         }
 
         public void Refresh()
         {
-            RemoveOldTiles();
-
-            TileType[,] tiles = generator.Generate(blackboard);
-            decorators.ForEach(x => x.Decorate(tiles, blackboard));
-            visualizer.Visualize(tiles);
-        }
-
-        public void RemoveOldTiles() 
-        {
-            List<GameObject> tiles = GameObject.FindGameObjectsWithTag("Tile").ToList();
-            tiles.ForEach(x => DestroyImmediate(x));
+            Dictionary<Vector2Int, TileType> tiles = generator.Generate(blackboard);
+          //  decorators.ForEach(x => x.Decorate(tiles, blackboard));
+            visualizer.Refresh(tiles);
         }
     }
 }

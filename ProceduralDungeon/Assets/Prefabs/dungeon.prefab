@@ -12,8 +12,6 @@ GameObject:
   - component: {fileID: 888329771982691105}
   - component: {fileID: 2438404101569706237}
   - component: {fileID: 7454380300989525823}
-  - component: {fileID: 1403476104180926870}
-  - component: {fileID: 5602768916107020724}
   m_Layer: 0
   m_Name: dungeon
   m_TagString: Untagged
@@ -63,7 +61,7 @@ MonoBehaviour:
   prefab: {fileID: 117074657326631280, guid: ab49edb085e7df14b932858ee285dccb, type: 3}
   size: 1
   spacing: 0.675
-  offset: {fileID: 0}
+  parent: {fileID: 0}
   conversions:
   - type: {fileID: 11400000, guid: 8d0d16859f7686542be90638ae2c94d0, type: 2}
     sprite: {fileID: 21300000, guid: 98b23f24f0818594c8c0a54edb726e0e, type: 3}
@@ -82,27 +80,3 @@ MonoBehaviour:
   stone: {fileID: 11400000, guid: 8d0d16859f7686542be90638ae2c94d0, type: 2}
   width: 50
   height: 50
---- !u!114 &1403476104180926870
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6970350835701219013}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa4f3c53f7b61be4b974a45a7c81efa4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &5602768916107020724
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6970350835701219013}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 433904bc0cd9d984ca48eea2c330b878, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

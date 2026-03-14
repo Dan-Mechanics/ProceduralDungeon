@@ -66,7 +66,7 @@ namespace ProceduralDungeon
             spriteRendererDungeon.Setup();
             dungeon.Setup(blackboard);
 
-            GetButtonByName(buttons, nameof(Show)).onClick.AddListener(Show);
+            GetButtonByName(buttons, nameof(Refresh)).onClick.AddListener(Refresh);
             GetButtonByName(buttons, nameof(Save)).onClick.AddListener(Save);
             GetButtonByName(buttons, nameof(Load)).onClick.AddListener(Load);
 
@@ -89,10 +89,10 @@ namespace ProceduralDungeon
             fields.ForEach(x => x.GetFromBlackboard());
         }
 
-        [ContextMenu(nameof(Show))]
-        private void Show()
+        [ContextMenu(nameof(Refresh))]
+        private void Refresh()
         {
-            print(nameof(Show));
+            print(nameof(Refresh));
             dungeon.Refresh();
         }
 
