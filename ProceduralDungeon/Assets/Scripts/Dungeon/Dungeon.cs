@@ -9,6 +9,13 @@ namespace ProceduralDungeon
         private IFinalizer contentPlacer;
         private IDungeonVisualizer visualizer;
 
+        /// <summary>
+        /// TODO MAKE FINALIZER LIST TYPE BEAT
+        /// </summary>
+        /// <param name="generator"></param>
+        /// <param name="analyzer"></param>
+        /// <param name="contentPlacer"></param>
+        /// <param name="visualizer"></param>
         public void Setup(ILayoutGenerator generator, ILayoutAnalyzer analyzer, IFinalizer contentPlacer, IDungeonVisualizer visualizer)
         {
             this.generator = generator;

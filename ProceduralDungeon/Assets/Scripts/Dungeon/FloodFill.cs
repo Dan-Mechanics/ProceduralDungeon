@@ -13,13 +13,14 @@ namespace ProceduralDungeon
     public class FloodFill : ILayoutAnalyzer
     {
         /// <summary>
-        /// We must assume that (0, 0) is always filled.
+        /// Assume that (0, 0) is always filled.
         /// </summary>
         public TileMetadata[,] Analyze(TileType[,] tiles)
         {
             int width = tiles.GetLength(0);
             int height = tiles.GetLength(1);
             TileMetadata[,] metadata = new TileMetadata[width, height];
+            // todo: make this work, use resources in summary.
 
             for (int x = 0; x < width; x++)
             {
