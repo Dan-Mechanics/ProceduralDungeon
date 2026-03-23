@@ -12,16 +12,16 @@ namespace ProceduralDungeon
 
         private bool hasSetup;
         private TileType[,] stamp;
-        private Dictionary<Color, TileType> dictionary;
+        private Dictionary<Color, TileType> colorToType;
 
         public void Apply(TileType[,] tiles, int xPos, int yPos)
         {
             if (!hasSetup)
             {
-                dictionary = new Dictionary<Color, TileType>();
+                colorToType = new Dictionary<Color, TileType>();
                 for (int i = 0; i < conversions.Length; i++)
                 {
-                    dictionary.Add(conversions[i].a, conversions[i].b);
+                    colorToType.Add(conversions[i].color, conversions[i].type);
                 }
 
                 stamp = GetStamp();
@@ -61,8 +61,8 @@ namespace ProceduralDungeon
                 for (int y = 0; y < h; y++)
                 {
                     Color color = texture.GetPixel(x, y);
-                    if (dictionary.ContainsKey(color))
-                        tiles[x, y] = dictionary[color];
+                    if (colorToType.ContainsKey(color))
+                        tiles[x, y] = colorToType[color];
                 }
             }
 
@@ -74,15 +74,15 @@ namespace ProceduralDungeon
             hasSetup = false;
             for (int i = 0; i < conversions.Length; i++)
             {
-                conversions[i].a.a = 1f;
+                conversions[i].color.a = 1f;
             }
         }
 
         [System.Serializable]
         public struct Conversion
         {
-            public Color a;
-            public TileType b;
+            public Color color;
+            public TileType type;
         }
     }
 }

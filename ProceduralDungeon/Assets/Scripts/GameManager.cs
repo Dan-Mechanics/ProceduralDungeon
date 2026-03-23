@@ -46,9 +46,9 @@ namespace ProceduralDungeon
             cameraHandler.Setup(blackboard);
 
             spriteRendererDungeon.Setup();
-            dungeon.Setup(blackboard);
+           // dungeon.Setup(blackboard);
 
-            GetButtonByName(buttons, nameof(Refresh)).onClick.AddListener(Refresh);
+            GetButtonByName(buttons, nameof(Generate)).onClick.AddListener(Generate);
             GetButtonByName(buttons, nameof(Save)).onClick.AddListener(Save);
             GetButtonByName(buttons, nameof(Load)).onClick.AddListener(Load);
 
@@ -71,21 +71,16 @@ namespace ProceduralDungeon
             fields.ForEach(x => x.GetFromBlackboard());
         }
 
-        private void Refresh()
-        {
-            dungeon.Refresh();
-        }
-
-        private void Save()
-        {
-            persistent.Save();
-        }
+        private void Generate() => dungeon.Generate(blackboard);
+        private void Save() => persistent.Save();
 
         private void Load()
         {
             persistent.Load();
             MatchFieldsToBlackboard();
-            Refresh();
+
+            // ??
+            Generate();
         }
     }
 }

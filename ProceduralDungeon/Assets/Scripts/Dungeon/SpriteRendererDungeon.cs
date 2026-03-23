@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace ProceduralDungeon
@@ -11,46 +10,40 @@ namespace ProceduralDungeon
         [SerializeField] private float spacing = default;
         [SerializeField] private Transform parent = default;
         [SerializeField] private Conversion[] conversions = default;
-        private Dictionary<TileType, Sprite> tileTypeToSprite;
 
-        private List<GameObject> previous = new List<GameObject>();
+        private Dictionary<TileType, Sprite> typeToSprite;
+        private List<GameObject> spawned;
 
         public void Setup()
         {
-            tileTypeToSprite = new Dictionary<TileType, Sprite>();
+            spawned = new List<GameObject>();
+            typeToSprite = new Dictionary<TileType, Sprite>();
             for (int i = 0; i < conversions.Length; i++)
             {
-                tileTypeToSprite[conversions[i].type] = conversions[i].sprite;
+                typeToSprite[conversions[i].type] = conversions[i].sprite;
             }
         }
 
-        /// <summary>
-        /// TODO: make it so that it removes the old and adds the new .
-        /// </summary>
-        /// <param name="tiles"></param>
-        public void Refresh(Dictionary<Vector2Int, TileType> tiles)
+        public void Visualize(TileType[,] tiles)
         {
-            for (int i = 0; i < previous.Count; i++)
-            {
-                Destroy(previous[i]);
-            }
-            previous.Clear();
-            
-            foreach (KeyValuePair<Vector2Int, TileType> pair in tiles)
-            {
-                TileType type = pair.Value;
-                int x = pair.Key.x;
-                int y = pair.Key.y;
+            spawned.ForEach(x => Destroy(x));
+            spawned.Clear();
 
-                Transform trans = Instantiate(prefab).transform;
-                SpriteRenderer rend = trans.GetComponent<SpriteRenderer>();
-                trans.SetParent(parent);
-                trans.localPosition = new Vector3(size * spacing * x, size * spacing * y, 0f);
-                trans.localRotation = Quaternion.identity;
-                trans.localScale = Vector3.one * size;
+            for (int x = 0; x < tiles.GetLength(0); x++)
+            {
+                for (int y = 0; y < tiles.GetLength(1); y++)
+                {
+                    TileType type = tiles[x, y];
+                    Transform tile = Instantiate(prefab).transform;
+                    SpriteRenderer rend = tile.GetComponent<SpriteRenderer>();
+                    tile.SetParent(parent);
+                    tile.localPosition = new Vector3(size * spacing * x, size * spacing * y, 0f);
+                    tile.localRotation = Quaternion.identity;
+                    tile.localScale = Vector3.one * size;
 
-                rend.sprite = tileTypeToSprite[type];
-                previous.Add(trans.gameObject);
+                    rend.sprite = typeToSprite[type];
+                    spawned.Add(tile.gameObject);
+                }
             }
         }
 

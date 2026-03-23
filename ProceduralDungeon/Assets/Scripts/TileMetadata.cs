@@ -1,7 +1,7 @@
 namespace ProceduralDungeon
 {
     [System.Serializable]
-    public struct TileMetadata
+    public class TileMetadata
     {
         public int neighbours;
         public int distanceFromStart;

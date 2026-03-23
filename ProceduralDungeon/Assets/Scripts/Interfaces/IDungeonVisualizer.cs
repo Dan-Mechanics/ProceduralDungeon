@@ -1,10 +1,7 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-
-namespace ProceduralDungeon
+﻿namespace ProceduralDungeon
 {
     public interface IDungeonVisualizer
     {
-        void Refresh(Dictionary<Vector2Int, TileType> tiles);
+        void Visualize(TileType[,] tiles);
     }
 }
