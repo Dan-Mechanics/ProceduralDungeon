@@ -19,15 +19,11 @@ namespace ProceduralDungeon
         private const string FLOAT = "float";
         private const string BOOL = "bool";
         private const char FIRST_SPLITTER = ';';
-        private const char SECOND_SPLITTER = ',';
+        private const char SECOND_SPLITTER = '_';
         private const char QUOTE = '"';
 
         public void Setup(Blackboard blackboard) => this.blackboard = blackboard;
-
-        public void LoadFromResources(string name)
-        {
-            StringToBlackboard(Resources.Load<TextAsset>(name).text, blackboard);
-        }
+        public void LoadTextAsset(TextAsset text) => StringToBlackboard(text.text, blackboard);
 
         public void Save()
         {
@@ -52,9 +48,12 @@ namespace ProceduralDungeon
             StringToBlackboard(File.ReadAllText(path), blackboard);
         }
 
-        public void StringToBlackboard(string str, Blackboard blackboard)
+        private void StringToBlackboard(string str, Blackboard blackboard)
         {
             Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+            if (!Utils.IsStringValid(str))
+                return;
+
             string[] lines = str.Split(FIRST_SPLITTER, StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < lines.Length; i++)
             {
@@ -80,7 +79,6 @@ namespace ProceduralDungeon
             if (!Utils.IsStringValid(type) || !Utils.IsStringValid(key) || !Utils.IsStringValid(value))
                 return;
 
-            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
             type = type.ToLowerInvariant();
             switch (type)
             {
@@ -107,14 +105,16 @@ namespace ProceduralDungeon
                     blackboard.SetValue(key, value.Substring(1, value.Length - 2));
                     break;
                 default:
-                    OnLog?.Invoke($"Blackboard doesn't know '{type}'.");
+                    OnLog?.Invoke($"Blackboard doesn't know '{type}'   '{value}'. This is fine.");
                     break;
             }
         }
 
-        public string BlackboardToString(Blackboard blackboard)
+        private string BlackboardToString(Blackboard blackboard)
         {
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
             StringBuilder builder = new StringBuilder();
+
             foreach (KeyValuePair<string, object> pair in blackboard.Dictionary)
             {
                 string key = pair.Key;

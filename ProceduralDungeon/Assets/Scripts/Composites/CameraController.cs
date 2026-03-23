@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace ProceduralDungeon
 {
-    public class CameraHandler : MonoBehaviour
+    public class CameraController : MonoBehaviour
     {
         [SerializeField] private Camera cam = default;
         [SerializeField] private float interval = default;
