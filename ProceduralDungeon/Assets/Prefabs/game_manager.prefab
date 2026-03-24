@@ -46,6 +46,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabs:
   - {fileID: 3232143181974163090, guid: ddf205dba89b5d24e9fd98d4f96424e2, type: 3}
-  tileTypes:
-  - {fileID: 11400000, guid: 29195ba3e2257794e9f765c5a22ac80f, type: 2}
-  - {fileID: 11400000, guid: 8d0d16859f7686542be90638ae2c94d0, type: 2}
+  defaults: {fileID: 4900000, guid: 556d7ce5f9f9025459b9479175f92657, type: 3}

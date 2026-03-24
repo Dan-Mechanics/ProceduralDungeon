@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace ProceduralDungeon
@@ -10,67 +8,45 @@ namespace ProceduralDungeon
     /// https://stackoverflow.com/questions/367226/flood-fill-algorithms
     /// https://medium.com/@akbarnotopb/flood-fill-algorithm-75ac41365639
     /// </summary>
-    public class FloodFill : ILayoutAnalyzer
+    public class FloodFill : MonoBehaviour, ILayoutAnalyzer
     {
-        /// <summary>
-        /// Assume that (0, 0) is always filled.
-        /// </summary>
         public TileMetadata[,] Analyze(TileType[,] tiles)
         {
             int width = tiles.GetLength(0);
             int height = tiles.GetLength(1);
             TileMetadata[,] metadata = new TileMetadata[width, height];
-
             DoFloodFill(0, 0, tiles, metadata, width, height);
-
-            for (int x = 0; x < width; x++)
-            {
-                for (int y = 0; y < height; y++)
-                {
-                    if (metadata[x, y] != null)
-                        metadata[x, y].neighbours = CountNeighbours(x, y, tiles, width, height);
-                }
-            }
 
             return metadata;
         }
 
-        /// <summary>
-        /// Goal: see if all areas are reachable
-        /// on the map and also count the numbers of 
-        /// steps to get there, not just the distance.
-        /// </summary>
         private void DoFloodFill(int x, int y, TileType[,] tiles, TileMetadata[,] metadata, int width, int height)
         {
             Stack<Vector2Int> stack = new Stack<Vector2Int>();
             int stepsTaken = 0;
+            metadata[x, y] = new TileMetadata(CountNeighbours(x, y, tiles, width, height), stepsTaken);
 
             stack.Push(new Vector2Int(x, y));
-            metadata[x, y] = new TileMetadata(stepsTaken);
-
             while (stack.Count > 0)
             {
                 Vector2Int pos = stack.Pop();
-                if (!Utils.Has(pos.x, pos.y, tiles, width, height))
-                    continue;
+                if (Utils.Has(pos.x, pos.y, tiles, width, height) && !Utils.Has(pos.x, pos.y, metadata, width, height))
+                {
+                    metadata[pos.x, pos.y] = new TileMetadata(CountNeighbours(x, y, tiles, width, height), stepsTaken);
 
-                metadata[pos.x, pos.y] = new TileMetadata(stepsTaken);
+                    stack.Push(pos + Vector2Int.up);
+                    stack.Push(pos + Vector2Int.down);
+                    stack.Push(pos + Vector2Int.left);
+                    stack.Push(pos + Vector2Int.right);
+                }
 
-
-                stack.Push(pos + Vector2Int.up);
-                stack.Push(pos + Vector2Int.down);
-                stack.Push(pos + Vector2Int.left);
-                stack.Push(pos + Vector2Int.right);
+                stepsTaken++;
             }
         }
 
-        private struct Temp
-        {
-            public int x;
-            public int y;
-            public int steps;
-        }
-
+        /// <summary>
+        /// Diagonally.
+        /// </summary>
         private int CountNeighbours(int x, int y, TileType[,] tiles, int width, int height)
         {
             int count = 0;

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ProceduralDungeon
@@ -6,29 +7,25 @@ namespace ProceduralDungeon
     {
         private ILayoutGenerator generator;
         private ILayoutAnalyzer analyzer;
-        private IFinalizer contentPlacer;
+        private readonly List<IFinalizer> finalizers = new List<IFinalizer>();
         private IDungeonVisualizer visualizer;
 
-        /// <summary>
-        /// TODO MAKE FINALIZER LIST TYPE BEAT
-        /// </summary>
-        /// <param name="generator"></param>
-        /// <param name="analyzer"></param>
-        /// <param name="contentPlacer"></param>
-        /// <param name="visualizer"></param>
-        public void Setup(ILayoutGenerator generator, ILayoutAnalyzer analyzer, IFinalizer contentPlacer, IDungeonVisualizer visualizer)
+        public void Setup()
         {
-            this.generator = generator;
-            this.analyzer = analyzer;
-            this.contentPlacer = contentPlacer;
-            this.visualizer = visualizer;
+            generator = FindAnyObjectByType<RandomWalk>();
+            analyzer = FindAnyObjectByType<FloodFill>();
+            finalizers.Add(FindAnyObjectByType<IslandRemover>());
+            finalizers.Add(FindAnyObjectByType<NeighboursDebug>());
+            // MANY MORE THINGS CAN GO HERE ...
+
+            visualizer = FindAnyObjectByType<SpriteRendererDungeon>();  
         }
 
         public void Generate(Blackboard blackboard)
         {
             TileType[,] tiles = generator.Generate(blackboard);
             TileMetadata[,] metadata = analyzer.Analyze(tiles);
-            contentPlacer.Finalize(tiles, metadata, blackboard);
+            finalizers.ForEach(x => x.Finalize(tiles, metadata, blackboard));
             visualizer.Visualize(tiles);
         }
     }

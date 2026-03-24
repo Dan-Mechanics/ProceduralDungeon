@@ -10,6 +10,10 @@ namespace ProceduralDungeon
         [SerializeField] private TileType floor = default;
         [SerializeField] private int width = default;
         [SerializeField] private int height = default;
+
+        private float sameDirectionOdds;
+        private int iterations;
+        private float maxDistance;
         private readonly Vector2Int[] directions = new Vector2Int[]
         {
             Vector2Int.up,
@@ -28,18 +32,23 @@ namespace ProceduralDungeon
 
             Random.InitState(seed.GetHashCode());
 
+            Vector2Int pos = new Vector2Int(Mathf.RoundToInt(width / 2f), Mathf.RoundToInt(height / 2f));
+
+            sameDirectionOdds = 0.5f;
+            iterations = 80;
+            maxDistance = 112f;
+
             // TODO: MAKE THESE ALL BLACKBOARD VALUES !!
             TileType[,] tiles = new TileType[width, height];
-            SendWalker(tiles, Vector2Int.right, 0.5f, 80, 112f);
-            SendWalker(tiles, Vector2Int.up, 0.5f, 80, 112f);
-            SendWalker(tiles, Vector2Int.down, 0.5f, 80, 112f);
-            SendWalker(tiles, Vector2Int.left, 0.5f, 80, 112f);
+            SendWalker(tiles, pos, Vector2Int.right);
+            SendWalker(tiles, pos, Vector2Int.up);
+            SendWalker(tiles, pos, Vector2Int.down);
+            SendWalker(tiles, pos, Vector2Int.left);
             return tiles;
         }
 
-        private void SendWalker(TileType[,] tiles, Vector2Int startingDirection, float sameDirectionOdds, int iterations, float maxDistance)
-        {
-            Vector2Int pos = Vector2Int.zero;
+        private void SendWalker(TileType[,] tiles, Vector2Int startingPosition,  Vector2Int startingDirection) {
+            Vector2Int pos = startingPosition;
             Vector2Int dir = startingDirection;
             for (int i = 0; i < iterations; i++)
             {

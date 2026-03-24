@@ -4,11 +4,12 @@ namespace ProceduralDungeon
     public class TileMetadata
     {
         public int neighbours;
-        public int stepsToGetThere;
+        public int steps;
 
-        public TileMetadata(int stepsToGetThere)
+        public TileMetadata(int neighbours, int steps)
         {
-            this.stepsToGetThere = stepsToGetThere;
+            this.neighbours = neighbours;
+            this.steps = steps;
         }
     }
 }

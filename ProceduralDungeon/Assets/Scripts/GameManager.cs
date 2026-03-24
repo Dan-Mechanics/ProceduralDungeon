@@ -7,7 +7,6 @@ namespace ProceduralDungeon
 {
     public class GameManager : MonoBehaviour
     {
-        [SerializeField] private List<GameObject> prefabs = default;
         [SerializeField] private TextAsset defaults = default;
 
         private Blackboard blackboard;
@@ -23,7 +22,6 @@ namespace ProceduralDungeon
         {
             blackboard = new Blackboard();
             persistent = new PersistentBlackboard();
-            prefabs.ForEach(x => Instantiate(x, x.transform.position, x.transform.rotation));
 
             sceneBoilerplate = FindAnyObjectByType<SceneBoilerplate>();
             fields = FindObjectsByType<Field>(FindObjectsSortMode.None).ToList();
@@ -46,7 +44,7 @@ namespace ProceduralDungeon
             cameraHandler.Setup(blackboard);
 
             spriteRendererDungeon.Setup();
-           // dungeon.Setup(blackboard);
+            dungeon.Setup();
 
             GetButtonByName(buttons, nameof(Generate)).onClick.AddListener(Generate);
             GetButtonByName(buttons, nameof(Save)).onClick.AddListener(Save);
