@@ -17,8 +17,8 @@ namespace ProceduralDungeon
             {
                 for (int y = 0; y < height; y++)
                 {
-                    if (tiles[x,y] != null)
-                        tiles[x, y] = neighbours[metadata[x, y].steps];
+                    if (tiles[x, y] != null)
+                        tiles[x, y] = neighbours[metadata[x, y].neighbours];
                 }
             }
         }

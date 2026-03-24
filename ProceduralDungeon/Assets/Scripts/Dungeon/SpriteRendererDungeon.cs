@@ -9,13 +9,14 @@ namespace ProceduralDungeon
         [SerializeField] private GameObject prefab = default;
         [SerializeField] private float size = default;
         [SerializeField] private float spacing = default;
-        [SerializeField] private Transform offset = default;
         [SerializeField] private Conversion[] conversions = default;
+        private Transform offset;
         private readonly Dictionary<TileType, Sprite> typeToSprite = new Dictionary<TileType, Sprite>();
         private readonly List<GameObject> spawned = new List<GameObject>();
 
         public void Setup()
         {
+            offset = new GameObject("offset").transform;
             for (int i = 0; i < conversions.Length; i++)
             {
                 typeToSprite.Add(conversions[i].type, conversions[i].sprite);

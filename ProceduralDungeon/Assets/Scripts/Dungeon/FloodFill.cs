@@ -15,24 +15,25 @@ namespace ProceduralDungeon
             int width = tiles.GetLength(0);
             int height = tiles.GetLength(1);
             TileMetadata[,] metadata = new TileMetadata[width, height];
-            DoFloodFill(0, 0, tiles, metadata, width, height);
+
+            Vector2Int pos = new Vector2Int(Mathf.RoundToInt(width / 2f), Mathf.RoundToInt(height / 2f));
+            DoFloodFill(pos.x, pos.y, tiles, metadata, width, height);
 
             return metadata;
         }
 
-        private void DoFloodFill(int x, int y, TileType[,] tiles, TileMetadata[,] metadata, int width, int height)
+        private void DoFloodFill(int startingX, int startingY, TileType[,] tiles, TileMetadata[,] metadata, int width, int height)
         {
             Stack<Vector2Int> stack = new Stack<Vector2Int>();
             int stepsTaken = 0;
-            metadata[x, y] = new TileMetadata(CountNeighbours(x, y, tiles, width, height), stepsTaken);
 
-            stack.Push(new Vector2Int(x, y));
+            stack.Push(new Vector2Int(startingX, startingY));
             while (stack.Count > 0)
             {
                 Vector2Int pos = stack.Pop();
                 if (Utils.Has(pos.x, pos.y, tiles, width, height) && !Utils.Has(pos.x, pos.y, metadata, width, height))
                 {
-                    metadata[pos.x, pos.y] = new TileMetadata(CountNeighbours(x, y, tiles, width, height), stepsTaken);
+                    metadata[pos.x, pos.y] = new TileMetadata(CountNeighbours(pos.x, pos.y, tiles, width, height), stepsTaken);
 
                     stack.Push(pos + Vector2Int.up);
                     stack.Push(pos + Vector2Int.down);

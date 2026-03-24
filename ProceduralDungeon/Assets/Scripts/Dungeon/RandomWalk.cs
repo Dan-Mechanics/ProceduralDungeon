@@ -40,6 +40,8 @@ namespace ProceduralDungeon
 
             // TODO: MAKE THESE ALL BLACKBOARD VALUES !!
             TileType[,] tiles = new TileType[width, height];
+            tiles[pos.x, pos.y] = floor;
+
             SendWalker(tiles, pos, Vector2Int.right);
             SendWalker(tiles, pos, Vector2Int.up);
             SendWalker(tiles, pos, Vector2Int.down);

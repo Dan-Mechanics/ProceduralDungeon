@@ -692,37 +692,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &447871956
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 447871957}
-  m_Layer: 0
-  m_Name: offset
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &447871957
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 447871956}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -50, y: -50, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &721392688
 GameObject:
   m_ObjectHideFlags: 0
@@ -2260,15 +2229,51 @@ PrefabInstance:
     - target: {fileID: 2438404101569706237, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
       propertyPath: offset
       value: 
-      objectReference: {fileID: 447871957}
-    - target: {fileID: 2438404101569706237, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
-      propertyPath: spacing
-      value: 0.675
       objectReference: {fileID: 0}
     - target: {fileID: 2438404101569706237, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
-      propertyPath: conversions.Array.data[5].sprite
+      propertyPath: conversions.Array.size
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2438404101569706237, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
+      propertyPath: conversions.Array.data[6].type
       value: 
-      objectReference: {fileID: 21300000, guid: 94a0f1eda20facc4b80943b503f8e92b, type: 3}
+      objectReference: {fileID: 11400000, guid: cb040f201ea33dc4cbbb1b9f4ccc2e40, type: 2}
+    - target: {fileID: 2438404101569706237, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
+      propertyPath: conversions.Array.data[7].type
+      value: 
+      objectReference: {fileID: 11400000, guid: 537673545399d4b4f85c54b74fb1ce5f, type: 2}
+    - target: {fileID: 2438404101569706237, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
+      propertyPath: conversions.Array.data[8].type
+      value: 
+      objectReference: {fileID: 11400000, guid: ed920c1001841394daeac50ce92a80d7, type: 2}
+    - target: {fileID: 2438404101569706237, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
+      propertyPath: conversions.Array.data[6].sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 2a4e7add14d62d849af197aea27d8c1a, type: 3}
+    - target: {fileID: 2438404101569706237, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
+      propertyPath: conversions.Array.data[7].sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 7dc65cd6a13633542a47499e89d43d4d, type: 3}
+    - target: {fileID: 2438404101569706237, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
+      propertyPath: conversions.Array.data[8].sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 2eb5fdaa36559d2498f665d8e18df6a4, type: 3}
+    - target: {fileID: 2717422130287794740, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
+      propertyPath: loot
+      value: 
+      objectReference: {fileID: 11400000, guid: cb040f201ea33dc4cbbb1b9f4ccc2e40, type: 2}
+    - target: {fileID: 2717422130287794740, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
+      propertyPath: coins
+      value: 
+      objectReference: {fileID: 11400000, guid: 537673545399d4b4f85c54b74fb1ce5f, type: 2}
+    - target: {fileID: 2717422130287794740, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
+      propertyPath: enemy
+      value: 
+      objectReference: {fileID: 11400000, guid: ed920c1001841394daeac50ce92a80d7, type: 2}
+    - target: {fileID: 2717422130287794740, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
+      propertyPath: floor
+      value: 
+      objectReference: {fileID: 11400000, guid: 8d0d16859f7686542be90638ae2c94d0, type: 2}
     - target: {fileID: 2982470942373748397, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2309,9 +2314,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5628740437711111725, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
+      propertyPath: neighbours.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5628740437711111725, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
+      propertyPath: neighbours.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: cb040f201ea33dc4cbbb1b9f4ccc2e40, type: 2}
     - target: {fileID: 6970350835701219013, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
       propertyPath: m_Name
       value: dungeon
+      objectReference: {fileID: 0}
+    - target: {fileID: 7454380300989525823, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
+      propertyPath: width
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7454380300989525823, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
+      propertyPath: height
+      value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2442,6 +2463,5 @@ SceneRoots:
   - {fileID: 4116318937317674056}
   - {fileID: 340226563}
   - {fileID: 1576129342}
-  - {fileID: 447871957}
   - {fileID: 721392691}
   - {fileID: 779590937}
