@@ -65,7 +65,7 @@ MonoBehaviour:
   prefab: {fileID: 117074657326631280, guid: ab49edb085e7df14b932858ee285dccb, type: 3}
   size: 1
   spacing: 0.675
-  parent: {fileID: 0}
+  offset: {fileID: 0}
   conversions:
   - type: {fileID: 11400000, guid: 2dab08591df3ae44cbd62097d8f9fb72, type: 2}
     sprite: {fileID: 21300000, guid: 6937b0df0f346e84480efc71453942f3, type: 3}
@@ -78,7 +78,7 @@ MonoBehaviour:
   - type: {fileID: 11400000, guid: 47d8b3f13652d0a48ac6ff927a93f4c2, type: 2}
     sprite: {fileID: 21300000, guid: 94a0f1eda20facc4b80943b503f8e92b, type: 3}
   - type: {fileID: 11400000, guid: 8d0d16859f7686542be90638ae2c94d0, type: 2}
-    sprite: {fileID: 21300000, guid: c60c0a6d18c9bbe438910143af25e351, type: 3}
+    sprite: {fileID: 21300000, guid: 94a0f1eda20facc4b80943b503f8e92b, type: 3}
 --- !u!114 &7454380300989525823
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92,8 +92,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floor: {fileID: 11400000, guid: 8d0d16859f7686542be90638ae2c94d0, type: 2}
-  width: 50
-  height: 50
+  width: 100
+  height: 100
 --- !u!114 &6392679174969294355
 MonoBehaviour:
   m_ObjectHideFlags: 0
