@@ -19,7 +19,7 @@ namespace ProceduralDungeon
         private const string FLOAT = "float";
         private const string BOOL = "bool";
         private const char FIRST_SPLITTER = ';';
-        private const char SECOND_SPLITTER = ' ';
+        private const char SECOND_SPLITTER = ',';
         private const char QUOTE = '"';
 
         public void Setup(Blackboard blackboard) => this.blackboard = blackboard;

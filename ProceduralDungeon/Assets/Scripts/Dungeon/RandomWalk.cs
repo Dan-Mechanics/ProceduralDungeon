@@ -34,7 +34,7 @@ namespace ProceduralDungeon
 
             Vector2Int center = new Vector2Int(Mathf.RoundToInt(width / 2f), Mathf.RoundToInt(height / 2f));
 
-            sameDirectionOdds = 0.5f;
+            sameDirectionOdds = 0.75f;
             iterations = 80;
             maxDistance = 112f;
 
@@ -55,16 +55,11 @@ namespace ProceduralDungeon
             Vector2Int dir = startingDirection;
             for (int i = 0; i < iterations; i++)
             {
-                if (Random.value < sameDirectionOdds)
+                if (Random.value > sameDirectionOdds)
                     dir = GetRandomDir();
 
-                pos += dir;
                 while (Utils.Has(pos.x, pos.y, tiles, width, height))
-                {
-                    // or just keep going in the same direction right.
-                    dir = GetRandomDir();
                     pos += dir;
-                }
 
                 if (pos.x < 0 || pos.x >= width || pos.y < 0 || pos.y >= height)
                     return;

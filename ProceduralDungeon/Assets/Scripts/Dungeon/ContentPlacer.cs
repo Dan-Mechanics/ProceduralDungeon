@@ -32,10 +32,9 @@ namespace ProceduralDungeon
                             tiles[x, y] = loot;
                             break;
                         case 2:
-                            if (Random.value > 0.2)
-                                continue;
+                            if (Random.value < 0.2)
+                                tiles[x, y] = coins;
 
-                            tiles[x, y] = coins;
                             break;
                         default:
                             break;

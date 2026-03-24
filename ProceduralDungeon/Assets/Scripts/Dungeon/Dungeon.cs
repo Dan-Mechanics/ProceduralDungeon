@@ -15,6 +15,7 @@ namespace ProceduralDungeon
             generator = FindAnyObjectByType<RandomWalk>();
             analyzer = FindAnyObjectByType<FloodFill>();
             contentPlacers.Add(FindAnyObjectByType<ContentPlacer>());
+            // contentPlacers.Add(FindAnyObjectByType<NeighboursDebug>());
 
             visualizer = FindAnyObjectByType<SpriteRendererDungeon>();  
         }

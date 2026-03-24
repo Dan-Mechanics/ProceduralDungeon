@@ -50,7 +50,7 @@ namespace ProceduralDungeon
         private void SendToBlackboard(float value)
         {
             value = Mathf.Clamp(value, min, max);
-            
+
             inputField.text = value.ToString();
             slider.value = value;
 
@@ -81,11 +81,11 @@ namespace ProceduralDungeon
 
         private void OnValidate()
         {
-            if (wholeNumbers)
-            {
-                min = Mathf.Round(min);
-                max = Mathf.Round(max);
-            }
+            if (!wholeNumbers)
+                return;
+
+            min = Mathf.Round(min);
+            max = Mathf.Round(max);
         }
     }
 }

@@ -42,7 +42,6 @@ namespace ProceduralDungeon
 
             fields.ForEach(x => x.Setup(blackboard));
             cameraHandler.Setup(blackboard);
-
             dungeon.Setup();
 
             GetButtonByName(buttons, nameof(Generate)).onClick.AddListener(Generate);

@@ -3,6 +3,10 @@ using UnityEngine;
 
 namespace ProceduralDungeon
 {
+    /// <summary>
+    /// I think it might be smart to put rooms
+    /// in script itself instead of here, then we just need references to shit type beat.
+    /// </summary>
     [CreateAssetMenu(fileName = nameof(Room), menuName = nameof(Room))]
     public class Room : ScriptableObject
     {
@@ -10,40 +14,31 @@ namespace ProceduralDungeon
         public Texture2D texture;
         public Conversion[] conversions;
 
-        private bool hasSetup;
-        private TileType[,] stamp;
-        private Dictionary<Color, TileType> colorToType;
-
         public void Apply(TileType[,] tiles, int xPos, int yPos)
         {
-            if (!hasSetup)
+            Dictionary<Color, TileType> colorToType = new Dictionary<Color, TileType>();
+            for (int i = 0; i < conversions.Length; i++)
             {
-                colorToType = new Dictionary<Color, TileType>();
-                for (int i = 0; i < conversions.Length; i++)
-                {
-                    colorToType.Add(conversions[i].color, conversions[i].type);
-                }
-
-                stamp = GetStamp();
-                Debug.Log("Setup done.");
-                hasSetup = true;
+                colorToType.Add(conversions[i].color, conversions[i].type);
             }
 
-            int w = stamp.GetLength(0);
-            int h = stamp.GetLength(1);
-            int halfX = Mathf.FloorToInt(w / 2f);
-            int halfY = Mathf.FloorToInt(h / 2f);
+            TileType[,] stamp = GetStamp(colorToType);
 
-            for (int x = 0; x < w; x++)
+            int width = stamp.GetLength(0);
+            int height = stamp.GetLength(1);
+            int halfX = Mathf.FloorToInt(width / 2f);
+            int halfY = Mathf.FloorToInt(height / 2f);
+
+            for (int x = 0; x < width; x++)
             {
-                for (int y = 0; y < h; y++)
+                for (int y = 0; y < height; y++)
                 {
-                    TryApply(x + xPos - halfX, y + yPos - halfY, tiles, stamp[x, y]);
+                    ApplyTile(x + xPos - halfX, y + yPos - halfY, tiles, stamp[x, y]);
                 }
             }
         }
 
-        public void TryApply(int x, int y, TileType[,] tiles, TileType type)
+        public void ApplyTile(int x, int y, TileType[,] tiles, TileType type)
         {
             if (x < 0 || x >= tiles.GetLength(0) || y < 0 || y >= tiles.GetLength(1))
                 return;
@@ -51,14 +46,14 @@ namespace ProceduralDungeon
             tiles[x, y] = type;
         }
 
-        private TileType[,] GetStamp()
+        private TileType[,] GetStamp(Dictionary<Color, TileType> colorToType)
         {
-            int w = texture.width;
-            int h = texture.height;
+            int width = texture.width;
+            int height = texture.height;
             TileType[,] tiles = new TileType[texture.width, texture.height];
-            for (int x = 0; x < w; x++)
+            for (int x = 0; x < width; x++)
             {
-                for (int y = 0; y < h; y++)
+                for (int y = 0; y < height; y++)
                 {
                     Color color = texture.GetPixel(x, y);
                     if (colorToType.ContainsKey(color))
@@ -67,15 +62,6 @@ namespace ProceduralDungeon
             }
 
             return tiles;
-        }
-
-        private void OnValidate()
-        {
-            hasSetup = false;
-            for (int i = 0; i < conversions.Length; i++)
-            {
-                conversions[i].color.a = 1f;
-            }
         }
 
         [System.Serializable]
