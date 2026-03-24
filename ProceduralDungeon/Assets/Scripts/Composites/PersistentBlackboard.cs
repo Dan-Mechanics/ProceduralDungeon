@@ -19,7 +19,7 @@ namespace ProceduralDungeon
         private const string FLOAT = "float";
         private const string BOOL = "bool";
         private const char FIRST_SPLITTER = ';';
-        private const char SECOND_SPLITTER = '_';
+        private const char SECOND_SPLITTER = ' ';
         private const char QUOTE = '"';
 
         public void Setup(Blackboard blackboard) => this.blackboard = blackboard;
@@ -29,7 +29,7 @@ namespace ProceduralDungeon
         {
             ExtensionFilter[] extensionList = new[] { new ExtensionFilter("Text Documents ", "txt") };
             string path = StandaloneFileBrowser.SaveFilePanel("Save As", "", "dungeon", extensionList);
-            if (Utils.IsStringValid(path))
+            if (!Utils.IsStringValid(path))
                 return;
 
             File.WriteAllText(path, BlackboardToString(blackboard));
@@ -150,7 +150,7 @@ namespace ProceduralDungeon
                 builder.Append(FIRST_SPLITTER).AppendLine();
             }
 
-            return builder.ToString();
+            return builder.ToString().Trim();
         }
     }
 }

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace ProceduralDungeon
@@ -9,22 +8,16 @@ namespace ProceduralDungeon
         [SerializeField] private GameObject prefab = default;
         [SerializeField] private float size = default;
         [SerializeField] private float spacing = default;
-        [SerializeField] private Conversion[] conversions = default;
-        private Transform offset;
+
         private readonly Dictionary<TileType, Sprite> typeToSprite = new Dictionary<TileType, Sprite>();
         private readonly List<GameObject> spawned = new List<GameObject>();
-
-        public void Setup()
-        {
-            offset = new GameObject("offset").transform;
-            for (int i = 0; i < conversions.Length; i++)
-            {
-                typeToSprite.Add(conversions[i].type, conversions[i].sprite);
-            }
-        }
+        private Transform offset;
 
         public void Visualize(TileType[,] tiles)
         {
+            if(offset == null)
+                offset = new GameObject("offset").transform;
+
             spawned.ForEach(x => Destroy(x));
             spawned.Clear();
             
@@ -47,6 +40,9 @@ namespace ProceduralDungeon
                     tile.localRotation = Quaternion.identity;
                     tile.localScale = Vector3.one * size;
 
+                    if (!typeToSprite.ContainsKey(type))
+                        typeToSprite.Add(type, Resources.Load<Sprite>(type.name));
+
                     rend.sprite = typeToSprite[type];
                     spawned.Add(tile.gameObject);
                 }
@@ -55,13 +51,6 @@ namespace ProceduralDungeon
             float offsetX = size * spacing * width;
             float offsetY = size * spacing * height;
             offset.localPosition = new Vector3(offsetX, offsetY, 0f) * -0.5f;
-        }
-
-        [System.Serializable]
-        private struct Conversion
-        {
-            public TileType type;
-            public Sprite sprite;
         }
     }
 }

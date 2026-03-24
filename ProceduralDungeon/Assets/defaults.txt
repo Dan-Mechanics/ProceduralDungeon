@@ -1,7 +1,7 @@
-string_seed_"dungeon";
-int_iterations_25;
-float_cameraSpeed_25.0;
-int_resetEachWalk_0;
-int_walkLength_25;
-float_fov_15.0;
-int_backtracking_1;
+float fov 17.08803;
+float cameraSpeed 26.83901;
+int walkLength 1;
+int iterations 1;
+string seed "5.212756";
+int resetEachWalk 0;
+int backtracking 0;

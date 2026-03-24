@@ -635,7 +635,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 20, y: 0.05, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1746,7 +1746,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 1, z: 0.1}
+  m_LocalScale: {x: 0.05, y: 10, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -2226,54 +2226,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2438404101569706237, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
-      propertyPath: offset
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2438404101569706237, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
-      propertyPath: conversions.Array.size
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 2438404101569706237, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
-      propertyPath: conversions.Array.data[6].type
-      value: 
-      objectReference: {fileID: 11400000, guid: cb040f201ea33dc4cbbb1b9f4ccc2e40, type: 2}
-    - target: {fileID: 2438404101569706237, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
-      propertyPath: conversions.Array.data[7].type
-      value: 
-      objectReference: {fileID: 11400000, guid: 537673545399d4b4f85c54b74fb1ce5f, type: 2}
-    - target: {fileID: 2438404101569706237, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
-      propertyPath: conversions.Array.data[8].type
-      value: 
-      objectReference: {fileID: 11400000, guid: ed920c1001841394daeac50ce92a80d7, type: 2}
-    - target: {fileID: 2438404101569706237, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
-      propertyPath: conversions.Array.data[6].sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 2a4e7add14d62d849af197aea27d8c1a, type: 3}
-    - target: {fileID: 2438404101569706237, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
-      propertyPath: conversions.Array.data[7].sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 7dc65cd6a13633542a47499e89d43d4d, type: 3}
-    - target: {fileID: 2438404101569706237, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
-      propertyPath: conversions.Array.data[8].sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 2eb5fdaa36559d2498f665d8e18df6a4, type: 3}
-    - target: {fileID: 2717422130287794740, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
-      propertyPath: loot
-      value: 
-      objectReference: {fileID: 11400000, guid: cb040f201ea33dc4cbbb1b9f4ccc2e40, type: 2}
-    - target: {fileID: 2717422130287794740, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
-      propertyPath: coins
-      value: 
-      objectReference: {fileID: 11400000, guid: 537673545399d4b4f85c54b74fb1ce5f, type: 2}
-    - target: {fileID: 2717422130287794740, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
-      propertyPath: enemy
-      value: 
-      objectReference: {fileID: 11400000, guid: ed920c1001841394daeac50ce92a80d7, type: 2}
-    - target: {fileID: 2717422130287794740, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
-      propertyPath: floor
-      value: 
-      objectReference: {fileID: 11400000, guid: 8d0d16859f7686542be90638ae2c94d0, type: 2}
     - target: {fileID: 2982470942373748397, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2314,25 +2266,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5628740437711111725, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
-      propertyPath: neighbours.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5628740437711111725, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
-      propertyPath: neighbours.Array.data[5]
-      value: 
-      objectReference: {fileID: 11400000, guid: cb040f201ea33dc4cbbb1b9f4ccc2e40, type: 2}
     - target: {fileID: 6970350835701219013, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
       propertyPath: m_Name
       value: dungeon
-      objectReference: {fileID: 0}
-    - target: {fileID: 7454380300989525823, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
-      propertyPath: width
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 7454380300989525823, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
-      propertyPath: height
-      value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

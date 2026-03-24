@@ -32,7 +32,7 @@ namespace ProceduralDungeon
 
             Random.InitState(seed.GetHashCode());
 
-            Vector2Int pos = new Vector2Int(Mathf.RoundToInt(width / 2f), Mathf.RoundToInt(height / 2f));
+            Vector2Int center = new Vector2Int(Mathf.RoundToInt(width / 2f), Mathf.RoundToInt(height / 2f));
 
             sameDirectionOdds = 0.5f;
             iterations = 80;
@@ -40,12 +40,12 @@ namespace ProceduralDungeon
 
             // TODO: MAKE THESE ALL BLACKBOARD VALUES !!
             TileType[,] tiles = new TileType[width, height];
-            tiles[pos.x, pos.y] = floor;
+            tiles[center.x, center.y] = floor;
 
-            SendWalker(tiles, pos, Vector2Int.right);
-            SendWalker(tiles, pos, Vector2Int.up);
-            SendWalker(tiles, pos, Vector2Int.down);
-            SendWalker(tiles, pos, Vector2Int.left);
+            SendWalker(tiles, center, Vector2Int.right);
+            SendWalker(tiles, center, Vector2Int.up);
+            SendWalker(tiles, center, Vector2Int.down);
+            SendWalker(tiles, center, Vector2Int.left);
             return tiles;
         }
 
@@ -61,6 +61,7 @@ namespace ProceduralDungeon
                 pos += dir;
                 while (Utils.Has(pos.x, pos.y, tiles, width, height))
                 {
+                    // or just keep going in the same direction right.
                     dir = GetRandomDir();
                     pos += dir;
                 }

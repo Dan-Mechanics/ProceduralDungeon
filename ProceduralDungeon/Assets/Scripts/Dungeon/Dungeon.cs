@@ -7,17 +7,14 @@ namespace ProceduralDungeon
     {
         private ILayoutGenerator generator;
         private ILayoutAnalyzer analyzer;
-        private readonly List<IFinalizer> finalizers = new List<IFinalizer>();
+        private readonly List<IContentPlacer> contentPlacers = new List<IContentPlacer>();
         private IDungeonVisualizer visualizer;
 
         public void Setup()
         {
             generator = FindAnyObjectByType<RandomWalk>();
             analyzer = FindAnyObjectByType<FloodFill>();
-            finalizers.Add(FindAnyObjectByType<IslandRemover>());
-           // finalizers.Add(FindAnyObjectByType<NeighboursDebug>());
-            finalizers.Add(FindAnyObjectByType<ContentPlacer>());
-            // MANY MORE THINGS CAN GO HERE ...
+            contentPlacers.Add(FindAnyObjectByType<ContentPlacer>());
 
             visualizer = FindAnyObjectByType<SpriteRendererDungeon>();  
         }
@@ -26,7 +23,7 @@ namespace ProceduralDungeon
         {
             TileType[,] tiles = generator.Generate(blackboard);
             TileMetadata[,] metadata = analyzer.Analyze(tiles);
-            finalizers.ForEach(x => x.Finalize(tiles, metadata, blackboard));
+            contentPlacers.ForEach(x => x.PlaceContent(tiles, metadata, blackboard));
             visualizer.Visualize(tiles);
         }
     }

@@ -17,7 +17,7 @@ namespace ProceduralDungeon
         {
             foreach (KeyValuePair<string, object> pair in dictionary)
             {
-                OnLog?.Invoke($"'{pair.Key}'   '{pair.Value}'");
+                OnLog?.Invoke($"'{pair.Key}' --> '{pair.Value}'");
             }
         }
     }

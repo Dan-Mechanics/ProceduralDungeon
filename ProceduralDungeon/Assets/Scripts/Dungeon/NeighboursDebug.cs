@@ -2,14 +2,11 @@ using UnityEngine;
 
 namespace ProceduralDungeon
 {
-    public class NeighboursDebug : MonoBehaviour, IFinalizer
+    public class NeighboursDebug : MonoBehaviour, IContentPlacer
     {
         [SerializeField] private TileType[] neighbours = default;
 
-        /// <summary>
-        /// Assume that tiles null == metadata null.
-        /// </summary>
-        public void Finalize(TileType[,] tiles, TileMetadata[,] metadata, Blackboard blackboard)
+        public void PlaceContent(TileType[,] tiles, TileMetadata[,] metadata, Blackboard blackboard)
         {
             int width = tiles.GetLength(0);
             int height = tiles.GetLength(1);

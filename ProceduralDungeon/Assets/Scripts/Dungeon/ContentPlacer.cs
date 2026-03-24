@@ -1,21 +1,23 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ProceduralDungeon
 {
-    public class ContentPlacer : MonoBehaviour, IFinalizer
+    public class ContentPlacer : MonoBehaviour, IContentPlacer
     {
         [SerializeField] private TileType floor = default;
         [SerializeField] private TileType coins = default;
         [SerializeField] private TileType loot = default;
         [SerializeField] private TileType enemy = default;
+        [SerializeField] private TileType start = default;
+        [SerializeField] private TileType goal = default;
 
-
-        public void Finalize(TileType[,] tiles, TileMetadata[,] metadata, Blackboard blackboard)
+        public void PlaceContent(TileType[,] tiles, TileMetadata[,] metadata, Blackboard blackboard)
         {
-          //  float chance = 0.5f;
-            
             int width = tiles.GetLength(0);
             int height = tiles.GetLength(1);
+            List<TileMetadata> walkable = new List<TileMetadata>();
+
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < height; y++)
@@ -23,26 +25,33 @@ namespace ProceduralDungeon
                     if (tiles[x, y] == null)
                         continue;
 
-                    if (Random.value > 0.5f)
-                        continue;
-
-                    int neighbours = metadata[x, y].neighbours;
-                    switch (neighbours)
+                    walkable.Add(metadata[x, y]);
+                    switch (metadata[x, y].neighbours)
                     {
                         case 1:
                             tiles[x, y] = loot;
                             break;
                         case 2:
+                            if (Random.value > 0.2)
+                                continue;
+
                             tiles[x, y] = coins;
-                            break;
-                        case 4:
-                            tiles[x, y] = enemy;
                             break;
                         default:
                             break;
                     }
                 }
             }
+
+            // SORT, PLACE START AND END GOAL.
+            walkable.Sort((x, y) => x.steps.CompareTo(y.steps));
+            if (walkable.Count > 0)
+                Place(walkable[0], start, tiles);
+
+            if (walkable.Count > 1)
+                Place(walkable[^1], goal, tiles);
         }
+
+        private void Place(TileMetadata pos, TileType type, TileType[,] tiles) => tiles[pos.x, pos.y] = type;
     }
 }

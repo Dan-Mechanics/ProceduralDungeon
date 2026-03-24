@@ -43,7 +43,6 @@ namespace ProceduralDungeon
             fields.ForEach(x => x.Setup(blackboard));
             cameraHandler.Setup(blackboard);
 
-            spriteRendererDungeon.Setup();
             dungeon.Setup();
 
             GetButtonByName(buttons, nameof(Generate)).onClick.AddListener(Generate);
@@ -54,6 +53,9 @@ namespace ProceduralDungeon
 
             MatchFieldsToBlackboard();
             blackboard.LogAll();
+
+
+            Generate();
         }
 
         private Button GetButtonByName(List<Button> buttons, string methodName)
@@ -69,7 +71,12 @@ namespace ProceduralDungeon
             fields.ForEach(x => x.GetFromBlackboard());
         }
 
-        private void Generate() => dungeon.Generate(blackboard);
+        private void Generate()
+        {
+            dungeon.Generate(blackboard);
+            blackboard.SetValue("seed", Time.time.ToString());
+            MatchFieldsToBlackboard();
+        }
         private void Save() => persistent.Save();
 
         private void Load()
