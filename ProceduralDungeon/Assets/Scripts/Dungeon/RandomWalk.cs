@@ -47,7 +47,8 @@ namespace ProceduralDungeon
             return tiles;
         }
 
-        private void SendWalker(TileType[,] tiles, Vector2Int startingPosition,  Vector2Int startingDirection) {
+        private void SendWalker(TileType[,] tiles, Vector2Int startingPosition,  Vector2Int startingDirection) 
+        {
             Vector2Int pos = startingPosition;
             Vector2Int dir = startingDirection;
             for (int i = 0; i < iterations; i++)
@@ -61,6 +62,9 @@ namespace ProceduralDungeon
                     dir = GetRandomDir();
                     pos += dir;
                 }
+
+                if (pos.x < 0 || pos.x >= width || pos.y < 0 || pos.y >= height)
+                    return;
 
                 tiles[pos.x, pos.y] = floor;
                 if (Vector2Int.Distance(pos, Vector2Int.zero) > maxDistance)

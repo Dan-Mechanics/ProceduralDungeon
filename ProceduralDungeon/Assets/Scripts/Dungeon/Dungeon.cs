@@ -14,8 +14,8 @@ namespace ProceduralDungeon
         {
             generator = FindAnyObjectByType<RandomWalk>();
             analyzer = FindAnyObjectByType<FloodFill>();
-            finalizers.Add(FindAnyObjectByType<IslandRemover>());
-            finalizers.Add(FindAnyObjectByType<NeighboursDebug>());
+           // finalizers.Add(FindAnyObjectByType<IslandRemover>());
+           // finalizers.Add(FindAnyObjectByType<NeighboursDebug>());
             // MANY MORE THINGS CAN GO HERE ...
 
             visualizer = FindAnyObjectByType<SpriteRendererDungeon>();  

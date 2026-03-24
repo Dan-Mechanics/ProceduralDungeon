@@ -29,12 +29,19 @@ namespace ProceduralDungeon
             spawned.ForEach(x => Destroy(x));
             spawned.Clear();
 
-            for (int x = 0; x < tiles.GetLength(0); x++)
+            int width = tiles.GetLength(0);
+            int height = tiles.GetLength(1);
+            for (int x = 0; x < width; x++)
             {
-                for (int y = 0; y < tiles.GetLength(1); y++)
+                for (int y = 0; y < height; y++)
                 {
                     TileType type = tiles[x, y];
+                    if (type == null)
+                        continue;
+
                     Transform tile = Instantiate(prefab).transform;
+                    tile.name = "tile";
+
                     SpriteRenderer rend = tile.GetComponent<SpriteRenderer>();
                     tile.SetParent(parent);
                     tile.localPosition = new Vector3(size * spacing * x, size * spacing * y, 0f);
