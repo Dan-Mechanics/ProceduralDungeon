@@ -59,7 +59,9 @@ namespace ProceduralDungeon
                     dir = GetRandomDir();
 
                 while (Utils.Has(pos.x, pos.y, tiles, width, height))
+                {
                     pos += dir;
+                }
 
                 if (pos.x < 0 || pos.x >= width || pos.y < 0 || pos.y >= height)
                     return;

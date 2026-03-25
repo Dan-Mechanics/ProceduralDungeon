@@ -3,25 +3,16 @@ using UnityEngine;
 
 namespace ProceduralDungeon
 {
-    /// <summary>
-    /// I think it might be smart to put rooms
-    /// in script itself instead of here, then we just need references to shit type beat.
-    /// </summary>
     [CreateAssetMenu(fileName = nameof(Room), menuName = nameof(Room))]
     public class Room : ScriptableObject
     {
         [Tooltip("Make sure to enable Read/Write on this texture.")]
         public Texture2D texture;
-        public Conversion[] conversions;
+        public TileType floor;
+        public TileType remove;
 
-        public void Apply(TileType[,] tiles, int xPos, int yPos)
+        public void Apply(TileType[,] tiles, int xPos, int yPos, Dictionary<Color, TileType> colorToType)
         {
-            Dictionary<Color, TileType> colorToType = new Dictionary<Color, TileType>();
-            for (int i = 0; i < conversions.Length; i++)
-            {
-                colorToType.Add(conversions[i].color, conversions[i].type);
-            }
-
             TileType[,] stamp = GetStamp(colorToType);
 
             int width = stamp.GetLength(0);
@@ -38,12 +29,16 @@ namespace ProceduralDungeon
             }
         }
 
-        public void ApplyTile(int x, int y, TileType[,] tiles, TileType type)
+        private void ApplyTile(int x, int y, TileType[,] tiles, TileType type)
         {
             if (x < 0 || x >= tiles.GetLength(0) || y < 0 || y >= tiles.GetLength(1))
                 return;
             
-            tiles[x, y] = type;
+            if (tiles[x,y] == null || tiles[x,y] == floor)
+                tiles[x, y] = type;
+
+            if (tiles[x, y] == remove)
+                tiles[x, y] = null;
         }
 
         private TileType[,] GetStamp(Dictionary<Color, TileType> colorToType)
@@ -62,13 +57,6 @@ namespace ProceduralDungeon
             }
 
             return tiles;
-        }
-
-        [System.Serializable]
-        public struct Conversion
-        {
-            public Color color;
-            public TileType type;
         }
     }
 }
