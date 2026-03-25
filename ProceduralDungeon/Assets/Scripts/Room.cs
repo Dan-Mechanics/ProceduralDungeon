@@ -11,9 +11,11 @@ namespace ProceduralDungeon
         public Texture2D texture;
         public TileType floor;
         public TileType remove;
+        private Vector2Int center;
 
-        public void Apply(TileType[,] tiles, int xPos, int yPos, Dictionary<Color, TileType> colorToType)
+        public void Apply(TileType[,] tiles, int xPos, int yPos, Vector2Int center, Dictionary<Color, TileType> colorToType)
         {
+            this.center = center;
             TileType[,] stamp = GetStamp(colorToType);
 
             int width = stamp.GetLength(0);
@@ -34,8 +36,14 @@ namespace ProceduralDungeon
         {
             if (x < 0 || x >= tiles.GetLength(0) || y < 0 || y >= tiles.GetLength(1))
                 return;
-            
-            if (tiles[x,y] == null || tiles[x,y] == floor)
+
+            if (x == center.x && y == center.y)
+                return;
+
+            /*if (type != remove)
+                tiles[x, y] = type;*/
+           
+             if (tiles[x,y] == null || tiles[x,y] == floor)
                 tiles[x, y] = type;
 
             if (tiles[x, y] == remove)
@@ -59,5 +67,7 @@ namespace ProceduralDungeon
 
             return tiles;
         }
+
+        private void OnValidate() => texture = Resources.Load<Texture2D>(name);
     }
 }

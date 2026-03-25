@@ -16,6 +16,7 @@ namespace ProceduralDungeon
         [SerializeField] private Room[] rooms = default;
         private Dictionary<Color, TileType> colorToType;
 
+        private Vector2Int center;
         private float sameDirectionOdds;
         private float maxDistance;
         private int iterations;
@@ -54,13 +55,13 @@ namespace ProceduralDungeon
 
             Random.InitState(seed.GetHashCode());
 
-            Vector2Int center = new Vector2Int(Mathf.RoundToInt(width / 2f), Mathf.RoundToInt(height / 2f));
+            center = new Vector2Int(Mathf.RoundToInt(width / 2f), Mathf.RoundToInt(height / 2f));
 
-            sameDirectionOdds = 0.6f;
+            sameDirectionOdds = 0.3f;
             iterations = 80;
             maxDistance = 112f;
             stepsForRoom = 10;
-            roomChance = 0.2f;
+            roomChance = 0.5f;
 
             // TODO: MAKE THESE ALL BLACKBOARD VALUES !!
             TileType[,] tiles = new TileType[width, height];
@@ -76,17 +77,29 @@ namespace ProceduralDungeon
         private void SendWalker(TileType[,] tiles, Vector2Int startingPosition,  Vector2Int startingDirection) 
         {
             Vector2Int pos = startingPosition;
-            Vector2Int dir = startingDirection;
+            Vector2Int dir;
+            int steps = 0;
             for (int i = 0; i < iterations; i++)
             {
-                if (Random.value > sameDirectionOdds)
-                    dir = GetRandomDir();
-
-                tiles[pos.x, pos.y] = floor;
-                if (i % stepsForRoom == 0 && Random.value > roomChance)
+                if(Random.value < sameDirectionOdds)
                 {
+                    dir = startingDirection;
+                }
+                else
+                {
+                    dir = GetRandomDir();
+                }
+
+                steps++;
+
+                if (steps > stepsForRoom)
+                {
+                    steps = 0;
+                    if (Random.value > roomChance)
+                        continue;
+
                     Room room = rooms[Random.Range(0, rooms.Length)];
-                    room.Apply(tiles, pos.x, pos.y, colorToType);
+                    room.Apply(tiles, pos.x, pos.y, center, colorToType);
                     if (room.terminateAfterRoom)
                         return;
                 }
@@ -101,6 +114,8 @@ namespace ProceduralDungeon
 
                 if (Vector2Int.Distance(pos, Vector2Int.zero) > maxDistance)
                     return;
+
+                tiles[pos.x, pos.y] = floor;
             }
         }
     }

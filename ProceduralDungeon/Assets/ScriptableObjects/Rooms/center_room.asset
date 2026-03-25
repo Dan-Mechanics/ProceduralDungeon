@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3838dbb5f2644c24aa0a03df08d50ac4, type: 3}
+  m_Name: center_room
+  m_EditorClassIdentifier: 
+  terminateAfterRoom: 0
+  texture: {fileID: 2800000, guid: 6edcfa2396413504d88484d01354ff64, type: 3}
+  floor: {fileID: 11400000, guid: 8d0d16859f7686542be90638ae2c94d0, type: 2}
+  remove: {fileID: 11400000, guid: 2ea9ae5a3ae467845a9dd647e6c2998a, type: 2}
