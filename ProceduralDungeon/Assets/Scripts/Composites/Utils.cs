@@ -15,5 +15,18 @@ namespace ProceduralDungeon
 
             return grid[x, y] != null;
         }
+
+        /// <summary>
+        /// Enter chance percentage as [0 to 1] inclusive value range.
+        /// </summary>
+        /// <returns>Random bool.</returns>
+        public static bool Roll(float odds)
+        {
+            if (odds <= 0f)
+                return false;
+
+            odds = Mathf.Clamp01(odds);
+            return UnityEngine.Random.value <= odds;
+        }
     }
 }

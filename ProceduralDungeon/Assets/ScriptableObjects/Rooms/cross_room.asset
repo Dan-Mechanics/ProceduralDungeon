@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3838dbb5f2644c24aa0a03df08d50ac4, type: 3}
-  m_Name: x_room
+  m_Name: cross_room
   m_EditorClassIdentifier: 
   texture: {fileID: 2800000, guid: 5405983ac515f2a4f9878b5c6e9d980f, type: 3}
   terminateWalkAfter: 0

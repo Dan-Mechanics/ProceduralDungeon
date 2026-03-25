@@ -2259,14 +2259,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2717422130287794740, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
-      propertyPath: goal
-      value: 
-      objectReference: {fileID: 11400000, guid: c33e62c81e8bb084d96a5c3f835356ba, type: 2}
-    - target: {fileID: 2717422130287794740, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
-      propertyPath: start
-      value: 
-      objectReference: {fileID: 11400000, guid: eb9a8c7335cd16c46a82e22cbd739d4e, type: 2}
     - target: {fileID: 2982470942373748397, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2311,6 +2303,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: dungeon
       objectReference: {fileID: 0}
+    - target: {fileID: 7124217036361752950, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
+      propertyPath: types.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7124217036361752950, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
+      propertyPath: types.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: a1828ef4e2b0f994c9d810ba5c8bf180, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

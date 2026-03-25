@@ -17,7 +17,8 @@ namespace ProceduralDungeon
         public void PlaceContent(TileType[,] tiles, TileMetadata[,] metadata, Blackboard blackboard)
         {
             float coinOdds = 0.2f;
-            
+            float lootOdds = 1f;
+
             int width = tiles.GetLength(0);
             int height = tiles.GetLength(1);
             List<TileMetadata> walkable = new List<TileMetadata>();
@@ -33,10 +34,12 @@ namespace ProceduralDungeon
                     switch (metadata[x, y].neighbours)
                     {
                         case 1:
-                            tiles[x, y] = loot;
+                            if (Utils.Roll(lootOdds))
+                                tiles[x, y] = loot;
+
                             break;
                         case 2:
-                            if (Random.value < coinOdds)
+                            if (Utils.Roll(coinOdds))
                                 tiles[x, y] = coins;
 
                             break;

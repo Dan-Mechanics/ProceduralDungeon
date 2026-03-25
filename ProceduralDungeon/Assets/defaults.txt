@@ -1,7 +1,7 @@
-float,fov,10.0;
-float,cameraSpeed,20.0;
-int,walkLength,1;
-int,iterations,1;
-string,seed,"default";
-int,resetEachWalk,0;
-int,backtracking,0;
+float, fov, 25.0;
+float, cameraSpeed, 20.0;
+int, walkLength, 1;
+int, iterations, 1;
+string, seed, "default";
+int, resetEachWalk, 0;
+int, backtracking, 0;
