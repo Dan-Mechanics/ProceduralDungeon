@@ -2270,37 +2270,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: dungeon
       objectReference: {fileID: 0}
-    - target: {fileID: 7124217036361752950, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
-      propertyPath: width
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 7124217036361752950, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
-      propertyPath: height
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 7124217036361752950, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
-      propertyPath: rooms.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 7124217036361752950, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
-      propertyPath: rooms.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 6a740952a74943640ae028f5075af8f2, type: 2}
-    - target: {fileID: 7124217036361752950, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
-      propertyPath: rooms.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: fa61bb70d67940e4ba835905b6ffb9c9, type: 2}
-    - target: {fileID: 7124217036361752950, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
-      propertyPath: rooms.Array.data[2]
-      value: 
-      objectReference: {fileID: 11400000, guid: 625c85b96cf404e4e9412b48c043e097, type: 2}
-    - target: {fileID: 7124217036361752950, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
-      propertyPath: rooms.Array.data[3]
-      value: 
-      objectReference: {fileID: 11400000, guid: 9fc5b4dca080fce46a6f933e6b4e224c, type: 2}
-    m_RemovedComponents:
-    - {fileID: 7454380300989525823, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
-    - {fileID: 5574929420764149989, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

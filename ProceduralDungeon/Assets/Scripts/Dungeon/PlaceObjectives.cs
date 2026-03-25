@@ -3,7 +3,10 @@ using UnityEngine;
 
 namespace ProceduralDungeon
 {
-    public class ContentPlacer : MonoBehaviour, IContentPlacer
+    /// <summary>
+    /// Counting loot and coins as objectives.
+    /// </summary>
+    public class PlaceObjectives : MonoBehaviour, IContentPlacer
     {
         [SerializeField] private TileType floor = default;
         [SerializeField] private TileType coins = default;

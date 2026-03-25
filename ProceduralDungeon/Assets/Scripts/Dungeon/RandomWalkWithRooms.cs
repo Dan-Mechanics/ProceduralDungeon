@@ -20,8 +20,8 @@ namespace ProceduralDungeon
         private float sameDirectionOdds;
         private float maxDistance;
         private int iterations;
-        private float roomChance;
-        private float stepsForRoom;
+        private float roomOdds;
+        private float iterationsForRoom;
 
         private readonly Vector2Int[] directions = new Vector2Int[]
         {
@@ -60,8 +60,8 @@ namespace ProceduralDungeon
             sameDirectionOdds = 0.3f;
             iterations = 80;
             maxDistance = 112f;
-            stepsForRoom = 10;
-            roomChance = 0.5f;
+            iterationsForRoom = 10;
+            roomOdds = 0.5f;
 
             // TODO: MAKE THESE ALL BLACKBOARD VALUES !!
             TileType[,] tiles = new TileType[width, height];
@@ -92,15 +92,15 @@ namespace ProceduralDungeon
 
                 steps++;
 
-                if (steps > stepsForRoom)
+                if (steps > iterationsForRoom)
                 {
                     steps = 0;
-                    if (Random.value > roomChance)
+                    if (Random.value > roomOdds)
                         continue;
 
                     Room room = rooms[Random.Range(0, rooms.Length)];
                     room.Apply(tiles, pos.x, pos.y, center, colorToType);
-                    if (room.terminateAfterRoom)
+                    if (room.terminateWalkAfter)
                         return;
                 }
 

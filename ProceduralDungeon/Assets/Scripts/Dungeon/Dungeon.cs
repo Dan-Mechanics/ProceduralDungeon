@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace ProceduralDungeon
@@ -7,17 +6,14 @@ namespace ProceduralDungeon
     {
         private ILayoutGenerator generator;
         private ILayoutAnalyzer analyzer;
-        private readonly List<IContentPlacer> contentPlacers = new List<IContentPlacer>();
+        private IContentPlacer contentPlacer;
         private IDungeonVisualizer visualizer;
 
         public void Setup()
         {
             generator = FindAnyObjectByType<RandomWalkWithRooms>();
             analyzer = FindAnyObjectByType<FloodFill>();
-            contentPlacers.Add(FindAnyObjectByType<ContentPlacer>());
-          //  contentPlacers.Add(FindAnyObjectByType<RoomPlacer>());
-            // contentPlacers.Add(FindAnyObjectByType<NeighboursDebug>());
-
+            contentPlacer = FindAnyObjectByType<PlaceObjectives>();
             visualizer = FindAnyObjectByType<SpriteRendererDungeon>();  
         }
 
@@ -25,7 +21,7 @@ namespace ProceduralDungeon
         {
             TileType[,] tiles = generator.Generate(blackboard);
             TileMetadata[,] metadata = analyzer.Analyze(tiles);
-            contentPlacers.ForEach(x => x.PlaceContent(tiles, metadata, blackboard));
+            contentPlacer.PlaceContent(tiles, metadata, blackboard);
             visualizer.Visualize(tiles);
         }
     }

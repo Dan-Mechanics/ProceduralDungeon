@@ -6,16 +6,13 @@ namespace ProceduralDungeon
     [CreateAssetMenu(fileName = nameof(Room), menuName = nameof(Room))]
     public class Room : ScriptableObject
     {
-        [Tooltip("Make sure to enable Read/Write on this texture.")]
-        public bool terminateAfterRoom;
         public Texture2D texture;
+        public bool terminateWalkAfter;
         public TileType floor;
         public TileType remove;
-        private Vector2Int center;
 
         public void Apply(TileType[,] tiles, int xPos, int yPos, Vector2Int center, Dictionary<Color, TileType> colorToType)
         {
-            this.center = center;
             TileType[,] stamp = GetStamp(colorToType);
 
             int width = stamp.GetLength(0);
@@ -27,23 +24,22 @@ namespace ProceduralDungeon
             {
                 for (int y = 0; y < height; y++)
                 {
-                    ApplyTile(x + xPos - halfX, y + yPos - halfY, tiles, stamp[x, y]);
+                    TileType type = stamp[x, y];
+                    ApplyTile(x + xPos - halfX, y + yPos - halfY,
+                        width, height, center, type, tiles);
                 }
             }
         }
 
-        private void ApplyTile(int x, int y, TileType[,] tiles, TileType type)
+        private void ApplyTile(int x, int y, int w, int h, Vector2Int center, TileType type, TileType[,] tiles)
         {
-            if (x < 0 || x >= tiles.GetLength(0) || y < 0 || y >= tiles.GetLength(1))
+            if (x < 0 || x >= w || y < 0 || y >= h)
                 return;
 
             if (x == center.x && y == center.y)
                 return;
 
-            /*if (type != remove)
-                tiles[x, y] = type;*/
-           
-             if (tiles[x,y] == null || tiles[x,y] == floor)
+            if (tiles[x, y] == null || tiles[x, y] == floor)
                 tiles[x, y] = type;
 
             if (tiles[x, y] == remove)
@@ -52,6 +48,9 @@ namespace ProceduralDungeon
 
         private TileType[,] GetStamp(Dictionary<Color, TileType> colorToType)
         {
+            if (!texture.isReadable)
+                throw new System.Exception("if (!texture.isReadable)");
+            
             int width = texture.width;
             int height = texture.height;
             TileType[,] tiles = new TileType[texture.width, texture.height];

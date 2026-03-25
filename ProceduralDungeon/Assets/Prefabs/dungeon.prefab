@@ -11,11 +11,9 @@ GameObject:
   - component: {fileID: 2982470942373748397}
   - component: {fileID: 888329771982691105}
   - component: {fileID: 2438404101569706237}
-  - component: {fileID: 7454380300989525823}
   - component: {fileID: 2717422130287794740}
   - component: {fileID: 5628740437711111725}
   - component: {fileID: 683077338392389982}
-  - component: {fileID: 5574929420764149989}
   - component: {fileID: 7124217036361752950}
   m_Layer: 0
   m_Name: dungeon
@@ -66,21 +64,6 @@ MonoBehaviour:
   prefab: {fileID: 117074657326631280, guid: ab49edb085e7df14b932858ee285dccb, type: 3}
   size: 1
   spacing: 0.675
---- !u!114 &7454380300989525823
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6970350835701219013}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 725064ceb83fdba46bbe1bea0d56e50c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  floor: {fileID: 11400000, guid: 8d0d16859f7686542be90638ae2c94d0, type: 2}
-  width: 50
-  height: 50
 --- !u!114 &2717422130287794740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,25 +111,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa4f3c53f7b61be4b974a45a7c81efa4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5574929420764149989
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6970350835701219013}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4eabb72bf1fb0244e9c20ccc60d4ae63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  colorIndex: {fileID: 2800000, guid: 790810ec640a16643821cefe4bd2b2df, type: 3}
-  types:
-  - {fileID: 11400000, guid: 2ea9ae5a3ae467845a9dd647e6c2998a, type: 2}
-  - {fileID: 11400000, guid: 8d0d16859f7686542be90638ae2c94d0, type: 2}
-  - {fileID: 11400000, guid: ed920c1001841394daeac50ce92a80d7, type: 2}
-  rooms:
-  - {fileID: 11400000, guid: fa61bb70d67940e4ba835905b6ffb9c9, type: 2}
 --- !u!114 &7124217036361752950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -160,8 +124,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floor: {fileID: 11400000, guid: 8d0d16859f7686542be90638ae2c94d0, type: 2}
-  width: 50
-  height: 50
+  width: 100
+  height: 100
   colorIndex: {fileID: 2800000, guid: 790810ec640a16643821cefe4bd2b2df, type: 3}
   types:
   - {fileID: 11400000, guid: 2ea9ae5a3ae467845a9dd647e6c2998a, type: 2}
@@ -169,4 +133,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ed920c1001841394daeac50ce92a80d7, type: 2}
   - {fileID: 11400000, guid: 5817046b309afc34f91672d823bad017, type: 2}
   rooms:
+  - {fileID: 11400000, guid: 6a740952a74943640ae028f5075af8f2, type: 2}
   - {fileID: 11400000, guid: fa61bb70d67940e4ba835905b6ffb9c9, type: 2}
+  - {fileID: 11400000, guid: 625c85b96cf404e4e9412b48c043e097, type: 2}
+  - {fileID: 11400000, guid: 9fc5b4dca080fce46a6f933e6b4e224c, type: 2}
