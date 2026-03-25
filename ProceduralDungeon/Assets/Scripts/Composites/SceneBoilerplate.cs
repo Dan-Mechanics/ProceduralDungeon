@@ -1,13 +1,11 @@
 ﻿using System.Globalization;
 using System.Threading;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace ProceduralDungeon
 {
     public class SceneBoilerplate : MonoBehaviour
     {
-        [SerializeField] private EasyBinding reload = default;
         [SerializeField] private EasyBinding escape = default;
         [SerializeField] private int fps = default;
         [SerializeField] private float physicsTicksPerSecond = default;
@@ -26,9 +24,6 @@ namespace ProceduralDungeon
 
         private void Update()
         {
-            if (reload.WasPressed)
-                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-
             if (escape.WasPressed)
                 Application.Quit();
         }
