@@ -49,11 +49,8 @@ namespace ProceduralDungeon
             GetButtonByName(buttons, nameof(Save)).onClick.AddListener(Save);
             GetButtonByName(buttons, nameof(Load)).onClick.AddListener(Load);
 
-            // ===
-
             MatchFieldsToBlackboard();
             blackboard.LogAll();
-
 
             Generate();
         }
