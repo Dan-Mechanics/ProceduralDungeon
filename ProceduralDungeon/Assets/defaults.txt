@@ -1,8 +1,8 @@
 string, seed, "default";
-float, fov, 25.0;
+float, fov, 10.6416;
 float, cameraSpeed, 20.0;
-int, iterations, 80;
-float, sameDirectionOdds, 0.3;
+int, iterations, 23;
+float, sameDirectionOdds, 0.5;
 float, lootOdds, 1.0;
 int, iterationsForRoom, 10;
 float, maxDistance, 112.0;
