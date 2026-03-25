@@ -5,6 +5,7 @@ namespace ProceduralDungeon
 {
     public class ContentPlacer : MonoBehaviour, IContentPlacer
     {
+        [SerializeField] private TileType floor = default;
         [SerializeField] private TileType coins = default;
         [SerializeField] private TileType loot = default;
         [SerializeField] private TileType start = default;
@@ -22,7 +23,7 @@ namespace ProceduralDungeon
             {
                 for (int y = 0; y < height; y++)
                 {
-                    if (tiles[x, y] == null)
+                    if (tiles[x, y] != floor)
                         continue;
 
                     walkable.Add(metadata[x, y]);

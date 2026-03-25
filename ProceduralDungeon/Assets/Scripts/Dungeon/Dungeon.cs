@@ -12,10 +12,10 @@ namespace ProceduralDungeon
 
         public void Setup()
         {
-            generator = FindAnyObjectByType<RandomWalk>();
+            generator = FindAnyObjectByType<RandomWalkWithRooms>();
             analyzer = FindAnyObjectByType<FloodFill>();
             contentPlacers.Add(FindAnyObjectByType<ContentPlacer>());
-            contentPlacers.Add(FindAnyObjectByType<RoomPlacer>());
+          //  contentPlacers.Add(FindAnyObjectByType<RoomPlacer>());
             // contentPlacers.Add(FindAnyObjectByType<NeighboursDebug>());
 
             visualizer = FindAnyObjectByType<SpriteRendererDungeon>();  

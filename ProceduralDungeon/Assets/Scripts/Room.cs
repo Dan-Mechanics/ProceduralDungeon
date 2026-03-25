@@ -7,8 +7,8 @@ namespace ProceduralDungeon
     public class Room : ScriptableObject
     {
         [Tooltip("Make sure to enable Read/Write on this texture.")]
-        public Texture2D texture;
         public bool terminateAfterRoom;
+        public Texture2D texture;
         public TileType floor;
         public TileType remove;
 

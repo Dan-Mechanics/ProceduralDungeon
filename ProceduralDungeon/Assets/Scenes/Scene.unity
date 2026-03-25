@@ -2273,8 +2273,38 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6970350835701219013, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2131526166910994735}
   m_SourcePrefab: {fileID: 100100000, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
+--- !u!1 &2131526166910994726 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6970350835701219013, guid: 168f6078843c3f54f88f70cd5c59aa79, type: 3}
+  m_PrefabInstance: {fileID: 2131526166910994725}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2131526166910994735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2131526166910994726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2128762cc3a7cce4288085923864108d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  floor: {fileID: 11400000, guid: 8d0d16859f7686542be90638ae2c94d0, type: 2}
+  width: 50
+  height: 50
+  colorIndex: {fileID: 2800000, guid: 790810ec640a16643821cefe4bd2b2df, type: 3}
+  types:
+  - {fileID: 11400000, guid: 2ea9ae5a3ae467845a9dd647e6c2998a, type: 2}
+  - {fileID: 11400000, guid: 8d0d16859f7686542be90638ae2c94d0, type: 2}
+  - {fileID: 11400000, guid: ed920c1001841394daeac50ce92a80d7, type: 2}
+  rooms:
+  - {fileID: 11400000, guid: fa61bb70d67940e4ba835905b6ffb9c9, type: 2}
 --- !u!1001 &2322443129957782808
 PrefabInstance:
   m_ObjectHideFlags: 0
