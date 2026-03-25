@@ -45,6 +45,7 @@ namespace ProceduralDungeon
             dungeon.Setup();
 
             GetButtonByName(buttons, nameof(Generate)).onClick.AddListener(Generate);
+            GetButtonByName(buttons, nameof(GenerateRandom)).onClick.AddListener(GenerateRandom);
             GetButtonByName(buttons, nameof(Save)).onClick.AddListener(Save);
             GetButtonByName(buttons, nameof(Load)).onClick.AddListener(Load);
 
@@ -70,20 +71,20 @@ namespace ProceduralDungeon
             fields.ForEach(x => x.GetFromBlackboard());
         }
 
-        private void Generate()
+        private void GenerateRandom()
         {
-            dungeon.Generate(blackboard);
             blackboard.SetValue("seed", Time.time.ToString());
             MatchFieldsToBlackboard();
+            Generate();
         }
+
+        private void Generate() => dungeon.Generate(blackboard);
         private void Save() => persistent.Save();
 
         private void Load()
         {
             persistent.Load();
             MatchFieldsToBlackboard();
-
-            // ??
             Generate();
         }
     }

@@ -13,16 +13,18 @@ namespace ProceduralDungeon
 
         public void Apply(TileType[,] tiles, int xPos, int yPos, Vector2Int center, Dictionary<Color, TileType> colorToType)
         {
+            int width = tiles.GetLength(1);
+            int height = tiles.GetLength(0);
             TileType[,] stamp = GetStamp(colorToType);
 
-            int width = stamp.GetLength(0);
-            int height = stamp.GetLength(1);
-            int halfX = Mathf.FloorToInt(width / 2f);
-            int halfY = Mathf.FloorToInt(height / 2f);
+            int stampWidth = stamp.GetLength(0);
+            int stampHeight = stamp.GetLength(1);
+            int halfX = Mathf.FloorToInt(stampWidth / 2f);
+            int halfY = Mathf.FloorToInt(stampHeight / 2f);
 
-            for (int x = 0; x < width; x++)
+            for (int x = 0; x < stampWidth; x++)
             {
-                for (int y = 0; y < height; y++)
+                for (int y = 0; y < stampHeight; y++)
                 {
                     TileType type = stamp[x, y];
                     ApplyTile(x + xPos - halfX, y + yPos - halfY,
