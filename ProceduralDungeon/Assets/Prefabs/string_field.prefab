@@ -512,4 +512,4 @@ MonoBehaviour:
   inputField: {fileID: 6434579068005369035}
   placeholder: {fileID: 7609397462999634444}
   text: {fileID: 5365445731521317315}
-  bannedCharacters: 
+  bannedCharacters: 3b00

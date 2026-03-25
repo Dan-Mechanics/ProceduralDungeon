@@ -16,8 +16,8 @@ namespace ProceduralDungeon
 
         public void PlaceContent(TileType[,] tiles, TileMetadata[,] metadata, Blackboard blackboard)
         {
-            float coinOdds = 0.2f;
-            float lootOdds = 1f;
+            float coinOdds = blackboard.GetValue<float>(nameof(coinOdds));
+            float lootOdds = blackboard.GetValue<float>(nameof(lootOdds));
 
             int width = tiles.GetLength(0);
             int height = tiles.GetLength(1);

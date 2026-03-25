@@ -20,14 +20,13 @@ namespace ProceduralDungeon
         private float maxDistance;
         private int iterations;
         private float roomOdds;
-        private float tilesForRoomChance;
-
+        private int iterationsForRoom;
         private readonly Vector2Int[] directions = new Vector2Int[]
         {
             Vector2Int.up,
-            Vector2Int.right,
+            Vector2Int.down,
             Vector2Int.left,
-            Vector2Int.down
+            Vector2Int.right
         };
 
         private Dictionary<Color, TileType> GetColorToType()
@@ -45,25 +44,22 @@ namespace ProceduralDungeon
 
         public TileType[,] Generate(Blackboard blackboard)
         {
-            if (colorToType == null)
-                colorToType = GetColorToType();
-
+            sameDirectionOdds = blackboard.GetValue<float>(nameof(sameDirectionOdds));
+            iterations = blackboard.GetValue<int>(nameof(iterations));
+            maxDistance = blackboard.GetValue<float>(nameof(maxDistance));
+            iterationsForRoom = blackboard.GetValue<int>(nameof(iterationsForRoom));
+            roomOdds = blackboard.GetValue<float>(nameof(roomOdds));
             string seed = blackboard.GetValue<string>(nameof(seed));
             if (!Utils.IsStringValid(seed))
                 seed = "default";
 
             Random.InitState(seed.GetHashCode());
 
-            Vector2Int center = new Vector2Int(Mathf.RoundToInt(width / 2f), Mathf.RoundToInt(height / 2f));
+            if (colorToType == null)
+                colorToType = GetColorToType();
 
-            sameDirectionOdds = 0.3f;
-            iterations = 80;
-            maxDistance = 112f;
-            tilesForRoomChance = 10;
-            roomOdds = 0.5f;
-
-            // TODO: MAKE THESE ALL BLACKBOARD VALUES !!
             TileType[,] tiles = new TileType[width, height];
+            Vector2Int center = new Vector2Int(Mathf.RoundToInt(width / 2f), Mathf.RoundToInt(height / 2f));
             tiles[center.x, center.y] = floor;
 
             SendWalker(tiles, center, Vector2Int.right);
@@ -83,7 +79,7 @@ namespace ProceduralDungeon
             {
                 // DO WE KEEP GOING IN THE SAME DIRECTION OR NOT?
                 dir = Utils.Roll(sameDirectionOdds) ? primaryDirection : GetRandomDir();
-                if (tileCounter >= tilesForRoomChance)
+                if (tileCounter >= iterationsForRoom)
                 {
                     tileCounter = 0;
                     if (SpawnRoom(tiles, pos, center))

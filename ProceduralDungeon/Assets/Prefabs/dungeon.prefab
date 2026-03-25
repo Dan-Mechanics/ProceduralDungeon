@@ -133,6 +133,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ed920c1001841394daeac50ce92a80d7, type: 2}
   - {fileID: 11400000, guid: 5817046b309afc34f91672d823bad017, type: 2}
   - {fileID: 11400000, guid: 322e15abed3aaea4695e5f3dd3b240a9, type: 2}
+  - {fileID: 11400000, guid: a1828ef4e2b0f994c9d810ba5c8bf180, type: 2}
   rooms:
   - {fileID: 11400000, guid: 6a740952a74943640ae028f5075af8f2, type: 2}
   - {fileID: 11400000, guid: fa61bb70d67940e4ba835905b6ffb9c9, type: 2}

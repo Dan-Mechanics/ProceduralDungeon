@@ -18,7 +18,13 @@ namespace ProceduralDungeon
             base.Setup(blackboard);
             inputField.onEndEdit.AddListener(SendToBlackboard);
             placeholder.text = Key;
-            text.text = Key.ToUpperInvariant();
+            UpdateText();
+        }
+
+        private void UpdateText()
+        {
+            if (text != null)
+                text.text = Key;
         }
 
         private void SendToBlackboard(string str)
@@ -43,5 +49,7 @@ namespace ProceduralDungeon
             inputField.text = str;
             SendToBlackboard(str);
         }
+
+        private void OnValidate() => UpdateText();
     }
 }

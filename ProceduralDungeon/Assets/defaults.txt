@@ -1,7 +1,10 @@
+string, seed, "default";
 float, fov, 25.0;
 float, cameraSpeed, 20.0;
-int, walkLength, 1;
-int, iterations, 1;
-string, seed, "default";
-int, resetEachWalk, 0;
-int, backtracking, 0;
+int, iterations, 80;
+float, sameDirectionOdds, 0.3;
+float, lootOdds, 1.0;
+int, iterationsForRoom, 10;
+float, maxDistance, 112.0;
+float, coinOdds, 0.2;
+float, roomOdds, 0.5;

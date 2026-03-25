@@ -25,7 +25,7 @@ namespace ProceduralDungeon
             slider.onValueChanged.AddListener(SendToBlackboard);
             inputField.onEndEdit.AddListener(OnEndEdit);
 
-            text.text = Key.ToUpperInvariant();
+            UpdateText();
             placeholder.text = $"{(slider.wholeNumbers ? "int" : "float")}: {slider.minValue}_{slider.maxValue}";
         }
 
@@ -79,8 +79,15 @@ namespace ProceduralDungeon
             SendToBlackboard(slider.value);
         }
 
+        private void UpdateText()
+        {
+            if (text != null)
+                text.text = Key;
+        }
+
         private void OnValidate()
         {
+            UpdateText();
             if (!wholeNumbers)
                 return;
 

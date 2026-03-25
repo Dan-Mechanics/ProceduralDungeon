@@ -69,6 +69,6 @@ namespace ProceduralDungeon
             return tiles;
         }
 
-        private void OnValidate() => texture = Resources.Load<Texture2D>(name);
+        private void OnValidate() => texture = Resources.Load<Texture2D>($"Rooms/{name}");
     }
 }
