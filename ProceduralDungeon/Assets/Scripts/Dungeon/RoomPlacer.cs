@@ -35,7 +35,7 @@ namespace ProceduralDungeon
                     if (metadata[x, y] == null)
                         continue;
 
-                    if (metadata[x, y].neighbours != 2)
+                    if (metadata[x, y].neighbours != 1)
                         continue;
 
                     if (Random.value > 0.2)

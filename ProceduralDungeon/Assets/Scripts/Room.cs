@@ -8,6 +8,7 @@ namespace ProceduralDungeon
     {
         [Tooltip("Make sure to enable Read/Write on this texture.")]
         public Texture2D texture;
+        public bool terminateAfterRoom;
         public TileType floor;
         public TileType remove;
 

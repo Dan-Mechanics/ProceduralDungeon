@@ -5,7 +5,7 @@ namespace ProceduralDungeon
     /// <summary>
     /// https://en.wikipedia.org/wiki/Random_walk
     /// </summary>
-    public class RandomWalk : MonoBehaviour, ILayoutGenerator 
+    public class RandomWalkWithRooms : MonoBehaviour, ILayoutGenerator 
     {
         [SerializeField] private TileType floor = default;
         [SerializeField] private int width = default;

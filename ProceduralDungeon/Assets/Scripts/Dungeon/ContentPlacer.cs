@@ -5,15 +5,15 @@ namespace ProceduralDungeon
 {
     public class ContentPlacer : MonoBehaviour, IContentPlacer
     {
-        [SerializeField] private TileType floor = default;
         [SerializeField] private TileType coins = default;
         [SerializeField] private TileType loot = default;
-        [SerializeField] private TileType enemy = default;
         [SerializeField] private TileType start = default;
         [SerializeField] private TileType goal = default;
 
         public void PlaceContent(TileType[,] tiles, TileMetadata[,] metadata, Blackboard blackboard)
         {
+            float coinOdds = 0.2f;
+            
             int width = tiles.GetLength(0);
             int height = tiles.GetLength(1);
             List<TileMetadata> walkable = new List<TileMetadata>();
@@ -32,7 +32,7 @@ namespace ProceduralDungeon
                             tiles[x, y] = loot;
                             break;
                         case 2:
-                            if (Random.value < 0.2)
+                            if (Random.value < coinOdds)
                                 tiles[x, y] = coins;
 
                             break;
