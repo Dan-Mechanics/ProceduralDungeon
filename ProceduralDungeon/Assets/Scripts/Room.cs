@@ -7,7 +7,6 @@ namespace ProceduralDungeon
     public class Room : ScriptableObject
     {
         public Texture2D texture;
-        public bool terminateWalkAfter;
         public TileType floor;
         public TileType remove;
 

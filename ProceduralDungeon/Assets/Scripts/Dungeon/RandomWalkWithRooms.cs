@@ -8,12 +8,16 @@ namespace ProceduralDungeon
     /// </summary>
     public class RandomWalkWithRooms : MonoBehaviour, ILayoutGenerator 
     {
+        private const string MIN_REQUIRED = "MinRequired";
+        private const string MAX_ALLOWED = "MaxAllowed";
+        
         [SerializeField] private TileType floor = default;
         [SerializeField] private int width = default;
         [SerializeField] private int height = default;
         [SerializeField] private Texture2D colorIndex = default;
         [SerializeField] private TileType[] types = default;
-        [SerializeField] private Room[] rooms = default;
+        [SerializeField] private RoomType safeRooms = default;
+        [SerializeField] private RoomType enemyRooms = default;
         private Dictionary<Color, TileType> colorToType;
 
         private float sameDirectionOdds;
@@ -44,19 +48,7 @@ namespace ProceduralDungeon
 
         public TileType[,] Generate(Blackboard blackboard)
         {
-            sameDirectionOdds = blackboard.GetValue<float>(nameof(sameDirectionOdds));
-            iterations = blackboard.GetValue<int>(nameof(iterations));
-            maxDistance = blackboard.GetValue<float>(nameof(maxDistance));
-            iterationsForRoom = blackboard.GetValue<int>(nameof(iterationsForRoom));
-            roomOdds = blackboard.GetValue<float>(nameof(roomOdds));
-            string seed = blackboard.GetValue<string>(nameof(seed));
-            if (!Utils.IsStringValid(seed))
-                seed = "default";
-
-            Random.InitState(seed.GetHashCode());
-
-            if (colorToType == null)
-                colorToType = GetColorToType();
+            ConfigureParameters(blackboard);
 
             TileType[,] tiles = new TileType[width, height];
             Vector2Int center = new Vector2Int(Mathf.RoundToInt(width / 2f), Mathf.RoundToInt(height / 2f));
@@ -66,7 +58,60 @@ namespace ProceduralDungeon
             SendWalker(tiles, center, Vector2Int.up);
             SendWalker(tiles, center, Vector2Int.down);
             SendWalker(tiles, center, Vector2Int.left);
+
+            List<Vector2Int> activeTiles = new List<Vector2Int>();
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    if (tiles[x, y] != null)
+                        activeTiles.Add(new Vector2Int(x, y));
+                }
+            }
+
+            EnforceMinRoomConstraint(safeRooms, activeTiles, tiles, center);
+            EnforceMinRoomConstraint(enemyRooms, activeTiles, tiles, center);
             return tiles;
+        }
+
+        private void EnforceMinRoomConstraint(RoomType roomType, List<Vector2Int> activeTiles, TileType[,] tiles, Vector2Int center)
+        {
+            while (roomType.count < roomType.minRequired)
+            {
+                int index = Random.Range(0, activeTiles.Count);
+                SpawnRoom(tiles, activeTiles[index], center, roomType);
+                activeTiles.RemoveAt(index);
+            }
+        }
+
+        private void ConfigureParameters(Blackboard blackboard)
+        {
+            sameDirectionOdds = blackboard.GetValue<float>(nameof(sameDirectionOdds));
+            iterations = blackboard.GetValue<int>(nameof(iterations));
+            maxDistance = blackboard.GetValue<float>(nameof(maxDistance));
+            iterationsForRoom = blackboard.GetValue<int>(nameof(iterationsForRoom));
+            roomOdds = blackboard.GetValue<float>(nameof(roomOdds));
+
+            safeRooms.minRequired = blackboard.GetValue<int>(nameof(safeRooms) + MIN_REQUIRED);
+            safeRooms.maxAllowed = blackboard.GetValue<int>(nameof(safeRooms) + MAX_ALLOWED);
+
+            enemyRooms.minRequired = blackboard.GetValue<int>(nameof(enemyRooms) + MIN_REQUIRED);
+            enemyRooms.maxAllowed = blackboard.GetValue<int>(nameof(enemyRooms) + MAX_ALLOWED);
+
+            enemyRooms.Clear();
+            safeRooms.Clear();
+
+            string seed = blackboard.GetValue<string>(nameof(seed));
+            if (!Utils.IsStringValid(seed))
+                seed = "default";
+
+            Random.InitState(seed.GetHashCode());
+
+            if (colorToType == null)
+                colorToType = GetColorToType();
+
+            safeRooms.Clear();
+            enemyRooms.Clear();
         }
 
         private void SendWalker(TileType[,] tiles, Vector2Int center, Vector2Int primaryDirection) 
@@ -74,16 +119,15 @@ namespace ProceduralDungeon
             Vector2Int pos = center;
             Vector2Int dir;
 
-            int tileCounter = 0;
+            int stepsTaken = 0;
             for (int i = 0; i < iterations; i++)
             {
                 // DO WE KEEP GOING IN THE SAME DIRECTION OR NOT?
                 dir = Utils.Roll(sameDirectionOdds) ? primaryDirection : GetRandomDir();
-                if (tileCounter >= iterationsForRoom)
+                if (stepsTaken >= iterationsForRoom)
                 {
-                    tileCounter = 0;
-                    if (SpawnRoom(tiles, pos, center))
-                        return;
+                    SpawnRoom(tiles, pos, center, Random.value > 0.5f ? safeRooms : enemyRooms);
+                    stepsTaken = 0;
                 }
 
                 // KEEP GOING UNTIL YOU FIND A VALID TILE.
@@ -97,22 +141,34 @@ namespace ProceduralDungeon
                     return;
 
                 tiles[pos.x, pos.y] = floor;
-                tileCounter++;
+                stepsTaken++;
             }
         }
 
-        /// <summary>
-        /// Use texture to spawn TileType room layout with enemies.
-        /// </summary>
-        /// <returns>Terminate walker.</returns>
-        private bool SpawnRoom(TileType[,] tiles, Vector2Int pos, Vector2Int center)
+        private void SpawnRoom(TileType[,] tiles, Vector2Int pos, Vector2Int center, RoomType roomType)
         {
+            if (roomType.count >= roomType.maxAllowed)
+                return;
+            
             if (!Utils.Roll(roomOdds))
-                return false;
+                return;
 
-            Room room = rooms[Random.Range(0, rooms.Length)];
+            roomType.count++;
+            Room room = roomType.GetRandomRoom();
             room.Apply(tiles, pos.x, pos.y, center, colorToType);
-            return room.terminateWalkAfter;
+        }
+
+        [System.Serializable]
+        public class RoomType
+        {
+            public int minRequired;
+            public int maxAllowed;
+            public int count;
+            public Room[] rooms;
+
+            public Room GetRandomRoom() => rooms[Random.Range(0, rooms.Length)];
+            public void Clear() => count = 0;
+            public bool CanSpawn() => count < maxAllowed;
         }
     }
 }
