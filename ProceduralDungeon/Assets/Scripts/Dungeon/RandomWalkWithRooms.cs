@@ -13,8 +13,8 @@ namespace ProceduralDungeon
         [SerializeField] private int height = default;
         [SerializeField] private Texture2D colorIndex = default;
         [SerializeField] private TileType[] types = default;
-        [SerializeField] private RoomType safeRooms = default;
-        [SerializeField] private RoomType enemyRooms = default;
+        [SerializeField] private RoomCollection safeRooms = default;
+        [SerializeField] private RoomCollection enemyRooms = default;
         private Dictionary<Color, TileType> colorToType;
 
         private float sameDirectionOdds;
@@ -72,13 +72,19 @@ namespace ProceduralDungeon
             return tiles;
         }
 
-        private void EnforceMinRoomConstraint(RoomType roomType, List<Vector2Int> activeTiles, TileType[,] tiles, Vector2Int center)
+        private void EnforceMinRoomConstraint(RoomCollection collection, List<Vector2Int> activeTiles, TileType[,] tiles, Vector2Int center)
         {
-            while (roomType.count < roomType.minRequired)
+            while (collection.count < collection.minRequired)
             {
-                int index = Random.Range(0, activeTiles.Count);
-                SpawnRoom(tiles, activeTiles[index], center, roomType);
-                activeTiles.RemoveAt(index);
+                Vector2Int pos = center;
+                if (activeTiles.Count > 0)
+                {
+                    int index = Random.Range(0, activeTiles.Count);
+                    pos = activeTiles[index];
+                    activeTiles.RemoveAt(index);
+                }
+
+                SpawnRoom(tiles, pos, center, collection);
             }
         }
 
@@ -120,8 +126,8 @@ namespace ProceduralDungeon
                     stepsTaken = 0;
                     if (Utils.Roll(roomChance))
                     {
-                        RoomType roomType = Utils.Roll(safeRoomPercentage) ? safeRooms : enemyRooms;
-                        SpawnRoom(tiles, pos, center, roomType);
+                        RoomCollection collection = Utils.Roll(safeRoomPercentage) ? safeRooms : enemyRooms;
+                        SpawnRoom(tiles, pos, center, collection);
                     }
                 }
 
@@ -142,22 +148,11 @@ namespace ProceduralDungeon
             }
         }
 
-        private void SpawnRoom(TileType[,] tiles, Vector2Int pos, Vector2Int center, RoomType roomType)
+        private void SpawnRoom(TileType[,] tiles, Vector2Int pos, Vector2Int center, RoomCollection collection)
         {
-            roomType.count++;
-            Room room = roomType.GetRandomRoom();
+            collection.count++;
+            Room room = collection.GetRandomRoom();
             room.Apply(tiles, pos.x, pos.y, center, colorToType);
-        }
-
-        [System.Serializable]
-        public class RoomType
-        {
-            public Room[] rooms;
-            [HideInInspector] public int minRequired;
-            [HideInInspector] public int count;
-
-            public void Clear() => count = 0;
-            public Room GetRandomRoom() => rooms[Random.Range(0, rooms.Length)];
         }
     }
 }
