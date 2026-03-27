@@ -1,4 +1,4 @@
-string, seed, "default";
+string, seed, "35.82497";
 float, fov, 10.6416;
 float, cameraSpeed, 20.0;
 int, iterations, 23;
@@ -7,4 +7,8 @@ float, lootOdds, 1.0;
 int, iterationsForRoom, 10;
 float, maxDistance, 112.0;
 float, coinOdds, 0.2;
-float, roomOdds, 0.5;
+float, spawnRoomChance, 0.5;
+int, safeRoomsRequired, 0;
+int, enemyRoomsRequired, 0;
+float, safeRoomPercentage, 0.3883685;
+float, roomChance, 0.5;

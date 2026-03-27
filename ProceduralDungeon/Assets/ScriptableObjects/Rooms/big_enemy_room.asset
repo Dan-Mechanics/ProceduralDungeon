@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3838dbb5f2644c24aa0a03df08d50ac4, type: 3}
-  m_Name: center_room
+  m_Name: big_enemy_room
   m_EditorClassIdentifier: 
-  texture: {fileID: 2800000, guid: 7fdfecf533f43a549ac22c13e6c8c309, type: 3}
+  texture: {fileID: 2800000, guid: 5405983ac515f2a4f9878b5c6e9d980f, type: 3}
   terminateWalkAfter: 0
   floor: {fileID: 11400000, guid: 8d0d16859f7686542be90638ae2c94d0, type: 2}
   remove: {fileID: 11400000, guid: 2ea9ae5a3ae467845a9dd647e6c2998a, type: 2}

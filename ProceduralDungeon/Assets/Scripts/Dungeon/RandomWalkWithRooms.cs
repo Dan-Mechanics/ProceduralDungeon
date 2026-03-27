@@ -8,9 +8,6 @@ namespace ProceduralDungeon
     /// </summary>
     public class RandomWalkWithRooms : MonoBehaviour, ILayoutGenerator 
     {
-        private const string MIN_REQUIRED = "MinRequired";
-        private const string MAX_ALLOWED = "MaxAllowed";
-        
         [SerializeField] private TileType floor = default;
         [SerializeField] private int width = default;
         [SerializeField] private int height = default;
@@ -23,7 +20,8 @@ namespace ProceduralDungeon
         private float sameDirectionOdds;
         private float maxDistance;
         private int iterations;
-        private float roomOdds;
+        private float safeRoomPercentage;
+        private float roomChance;
         private int iterationsForRoom;
         private readonly Vector2Int[] directions = new Vector2Int[]
         {
@@ -69,8 +67,8 @@ namespace ProceduralDungeon
                 }
             }
 
-            EnforceMinRoomConstraint(safeRooms, activeTiles, tiles, center);
             EnforceMinRoomConstraint(enemyRooms, activeTiles, tiles, center);
+            EnforceMinRoomConstraint(safeRooms, activeTiles, tiles, center);
             return tiles;
         }
 
@@ -90,16 +88,11 @@ namespace ProceduralDungeon
             iterations = blackboard.GetValue<int>(nameof(iterations));
             maxDistance = blackboard.GetValue<float>(nameof(maxDistance));
             iterationsForRoom = blackboard.GetValue<int>(nameof(iterationsForRoom));
-            roomOdds = blackboard.GetValue<float>(nameof(roomOdds));
+            roomChance = blackboard.GetValue<float>(nameof(roomChance));
+            safeRoomPercentage = blackboard.GetValue<float>(nameof(safeRoomPercentage));
 
-            safeRooms.minRequired = blackboard.GetValue<int>(nameof(safeRooms) + MIN_REQUIRED);
-            safeRooms.maxAllowed = blackboard.GetValue<int>(nameof(safeRooms) + MAX_ALLOWED);
-
-            enemyRooms.minRequired = blackboard.GetValue<int>(nameof(enemyRooms) + MIN_REQUIRED);
-            enemyRooms.maxAllowed = blackboard.GetValue<int>(nameof(enemyRooms) + MAX_ALLOWED);
-
-            enemyRooms.Clear();
-            safeRooms.Clear();
+            safeRooms.minRequired = blackboard.GetValue<int>($"{nameof(safeRooms)}Required");
+            enemyRooms.minRequired = blackboard.GetValue<int>($"{nameof(enemyRooms)}Required");
 
             string seed = blackboard.GetValue<string>(nameof(seed));
             if (!Utils.IsStringValid(seed))
@@ -117,22 +110,26 @@ namespace ProceduralDungeon
         private void SendWalker(TileType[,] tiles, Vector2Int center, Vector2Int primaryDirection) 
         {
             Vector2Int pos = center;
-            Vector2Int dir;
-
             int stepsTaken = 0;
             for (int i = 0; i < iterations; i++)
             {
                 // DO WE KEEP GOING IN THE SAME DIRECTION OR NOT?
-                dir = Utils.Roll(sameDirectionOdds) ? primaryDirection : GetRandomDir();
+                Vector2Int dir = Utils.Roll(sameDirectionOdds) ? primaryDirection : GetRandomDir();
                 if (stepsTaken >= iterationsForRoom)
                 {
-                    SpawnRoom(tiles, pos, center, Random.value > 0.5f ? safeRooms : enemyRooms);
                     stepsTaken = 0;
+                    if (Utils.Roll(roomChance))
+                    {
+                        RoomType roomType = Utils.Roll(safeRoomPercentage) ? safeRooms : enemyRooms;
+                        SpawnRoom(tiles, pos, center, roomType);
+                    }
                 }
 
                 // KEEP GOING UNTIL YOU FIND A VALID TILE.
                 while (Utils.Has(pos.x, pos.y, tiles, width, height))
+                {
                     pos += dir;
+                }
 
                 if (pos.x < 0 || pos.x >= width || pos.y < 0 || pos.y >= height)
                     return;
@@ -147,12 +144,6 @@ namespace ProceduralDungeon
 
         private void SpawnRoom(TileType[,] tiles, Vector2Int pos, Vector2Int center, RoomType roomType)
         {
-            if (roomType.count >= roomType.maxAllowed)
-                return;
-            
-            if (!Utils.Roll(roomOdds))
-                return;
-
             roomType.count++;
             Room room = roomType.GetRandomRoom();
             room.Apply(tiles, pos.x, pos.y, center, colorToType);
@@ -161,14 +152,12 @@ namespace ProceduralDungeon
         [System.Serializable]
         public class RoomType
         {
-            public int minRequired;
-            public int maxAllowed;
-            public int count;
             public Room[] rooms;
+            [HideInInspector] public int minRequired;
+            [HideInInspector] public int count;
 
-            public Room GetRandomRoom() => rooms[Random.Range(0, rooms.Length)];
             public void Clear() => count = 0;
-            public bool CanSpawn() => count < maxAllowed;
+            public Room GetRandomRoom() => rooms[Random.Range(0, rooms.Length)];
         }
     }
 }
