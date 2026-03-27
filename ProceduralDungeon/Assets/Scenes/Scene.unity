@@ -626,7 +626,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2955932384439276280, guid: 821c7815069e16f4ea0ae3eacf93fe3f, type: 3}
       propertyPath: min
-      value: 0.3
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2955932384439276280, guid: 821c7815069e16f4ea0ae3eacf93fe3f, type: 3}
       propertyPath: validate

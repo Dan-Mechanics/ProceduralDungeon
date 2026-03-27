@@ -1,2 +1,0 @@
-float, fov, 25.0;
-float, cameraSpeed, 25.0

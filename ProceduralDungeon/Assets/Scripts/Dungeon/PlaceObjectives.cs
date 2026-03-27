@@ -33,11 +33,13 @@ namespace ProceduralDungeon
                     walkable.Add(metadata[x, y]);
                     switch (metadata[x, y].neighbours)
                     {
+                        // 1 NEIGHBOUR = 3 WALLS AROUND.
                         case 1:
                             if (Utils.Roll(lootOdds))
                                 tiles[x, y] = loot;
 
                             break;
+                        // 2 NEIGHBOURS = 2 WALLS AROUND.
                         case 2:
                             if (Utils.Roll(coinOdds))
                                 tiles[x, y] = coins;
