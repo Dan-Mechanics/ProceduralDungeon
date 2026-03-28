@@ -81,6 +81,7 @@ MonoBehaviour:
   loot: {fileID: 11400000, guid: cb040f201ea33dc4cbbb1b9f4ccc2e40, type: 2}
   start: {fileID: 11400000, guid: eb9a8c7335cd16c46a82e22cbd739d4e, type: 2}
   goal: {fileID: 11400000, guid: c33e62c81e8bb084d96a5c3f835356ba, type: 2}
+  lava: {fileID: 11400000, guid: a74904cc2742d104e95f6427238eac68, type: 2}
 --- !u!114 &5628740437711111725
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,6 +135,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5817046b309afc34f91672d823bad017, type: 2}
   - {fileID: 11400000, guid: 322e15abed3aaea4695e5f3dd3b240a9, type: 2}
   - {fileID: 11400000, guid: a1828ef4e2b0f994c9d810ba5c8bf180, type: 2}
+  - {fileID: 11400000, guid: a74904cc2742d104e95f6427238eac68, type: 2}
   safeRooms:
     rooms:
     - {fileID: 11400000, guid: 625c85b96cf404e4e9412b48c043e097, type: 2}

@@ -15,7 +15,6 @@ namespace ProceduralDungeon
         [SerializeField] private TileType[] types = default;
         [SerializeField] private RoomCollection safeRooms = default;
         [SerializeField] private RoomCollection enemyRooms = default;
-        private Dictionary<Color, TileType> colorToType;
 
         private float sameDirectionOdds;
         private float maxDistance;
@@ -23,6 +22,7 @@ namespace ProceduralDungeon
         private float safeRoomPercentage;
         private float roomChance;
         private int iterationsForRoom;
+        private Dictionary<Color, TileType> colorToType;
         private readonly Vector2Int[] directions = new Vector2Int[]
         {
             Vector2Int.up,
@@ -30,17 +30,6 @@ namespace ProceduralDungeon
             Vector2Int.left,
             Vector2Int.right
         };
-
-        private Dictionary<Color, TileType> GetColorToType()
-        {
-            Dictionary<Color, TileType> colorToType = new Dictionary<Color, TileType>();
-            for (int i = 0; i < types.Length; i++)
-            {
-                colorToType.Add(colorIndex.GetPixel(0, i), types[i]);
-            }
-
-            return colorToType;
-        }
 
         private Vector2Int GetRandomDir() => directions[Random.Range(0, directions.Length)];
 
@@ -106,21 +95,26 @@ namespace ProceduralDungeon
 
             Random.InitState(seed.GetHashCode());
 
-            if (colorToType == null)
-                colorToType = GetColorToType();
-
             safeRooms.Clear();
             enemyRooms.Clear();
+            if (colorToType == null)
+            {
+                colorToType = new Dictionary<Color, TileType>();
+                for (int i = 0; i < types.Length; i++)
+                {
+                    colorToType.Add(colorIndex.GetPixel(0, i), types[i]);
+                }
+            }
         }
 
-        private void SendWalker(TileType[,] tiles, Vector2Int center, Vector2Int primaryDirection) 
+        private void SendWalker(TileType[,] tiles, Vector2Int center, Vector2Int startingDirection) 
         {
             Vector2Int pos = center;
             int stepsTaken = 0;
             for (int i = 0; i < iterations; i++)
             {
                 // DO WE KEEP GOING IN THE SAME DIRECTION OR NOT?
-                Vector2Int dir = Utils.Roll(sameDirectionOdds) ? primaryDirection : GetRandomDir();
+                Vector2Int dir = Utils.Roll(sameDirectionOdds) ? startingDirection : GetRandomDir();
                 if (stepsTaken >= iterationsForRoom)
                 {
                     stepsTaken = 0;

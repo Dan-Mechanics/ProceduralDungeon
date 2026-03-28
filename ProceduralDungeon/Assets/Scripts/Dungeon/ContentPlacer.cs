@@ -6,17 +6,19 @@ namespace ProceduralDungeon
     /// <summary>
     /// Counting loot and coins as objectives.
     /// </summary>
-    public class PlaceObjectives : MonoBehaviour, IContentPlacer
+    public class ContentPlacer : MonoBehaviour, IContentPlacer
     {
         [SerializeField] private TileType floor = default;
         [SerializeField] private TileType coins = default;
         [SerializeField] private TileType loot = default;
         [SerializeField] private TileType start = default;
         [SerializeField] private TileType goal = default;
+        [SerializeField] private TileType lava = default;
 
         public void PlaceContent(TileType[,] tiles, TileMetadata[,] metadata, Blackboard blackboard)
         {
             float coinOdds = blackboard.GetValue<float>(nameof(coinOdds));
+            float lavaOdds = blackboard.GetValue<float>(nameof(lavaOdds));
             float lootOdds = blackboard.GetValue<float>(nameof(lootOdds));
 
             int width = tiles.GetLength(0);
@@ -41,8 +43,14 @@ namespace ProceduralDungeon
                             break;
                         // 2 NEIGHBOURS = 2 WALLS AROUND.
                         case 2:
-                            if (Utils.Roll(coinOdds))
+                            if (Utils.Roll(lavaOdds) && IsHallway(x, y, metadata, width, height))
+                            {
+                                tiles[x, y] = lava;
+                            }
+                            else if (Utils.Roll(coinOdds)) 
+                            {
                                 tiles[x, y] = coins;
+                            }
 
                             break;
                         default:
@@ -60,6 +68,24 @@ namespace ProceduralDungeon
                 Place(walkable[^1], goal, tiles);
         }
 
-        private void Place(TileMetadata pos, TileType type, TileType[,] tiles) => tiles[pos.x, pos.y] = type;
+        /// <summary>
+        /// Assuming that (x, y) is already a hallway.
+        /// </summary>
+        private bool IsHallway(int x, int y, TileMetadata[,] metadata, int width, int height)
+        {
+            if (CheckNeighbours(x + 1, y, metadata, 2, width, height) && CheckNeighbours(x - 1, y, metadata, 2, width, height))
+                return true;
+
+            if (CheckNeighbours(x, y + 1, metadata, 2, width, height) && CheckNeighbours(x, y - 1, metadata, 2, width, height))
+                return true;
+
+            return false;
+        }
+
+        private bool CheckNeighbours(int x, int y, TileMetadata[,] metadata, int count, int width, int height)
+            => Utils.Has(x, y, metadata, width, height) && metadata[x, y].neighbours == count;
+
+        private void Place(TileMetadata pos, TileType type, TileType[,] tiles) 
+            => tiles[pos.x, pos.y] = type;
     }
 }

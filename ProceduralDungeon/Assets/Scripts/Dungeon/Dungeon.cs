@@ -13,7 +13,7 @@ namespace ProceduralDungeon
         {
             generator = FindAnyObjectByType<RandomWalkWithRooms>();
             analyzer = FindAnyObjectByType<FloodFill>();
-            contentPlacer = FindAnyObjectByType<PlaceObjectives>();
+            contentPlacer = FindAnyObjectByType<ContentPlacer>();
             visualizer = FindAnyObjectByType<SpriteRendererDungeon>();  
         }
 
