@@ -9,12 +9,12 @@ namespace ProceduralDungeon
         private IContentPlacer contentPlacer;
         private IDungeonVisualizer visualizer;
 
-        public void Setup()
+        public void Setup(ILayoutGenerator generator, ILayoutAnalyzer analyzer, IContentPlacer contentPlacer, IDungeonVisualizer visualizer)
         {
-            generator = FindAnyObjectByType<RandomWalkWithRooms>();
-            analyzer = FindAnyObjectByType<FloodFill>();
-            contentPlacer = FindAnyObjectByType<ContentPlacer>();
-            visualizer = FindAnyObjectByType<SpriteRendererDungeon>();  
+            this.generator = generator;
+            this.analyzer = analyzer;
+            this.contentPlacer = contentPlacer;
+            this.visualizer = visualizer;
         }
 
         public void Generate(Blackboard blackboard)

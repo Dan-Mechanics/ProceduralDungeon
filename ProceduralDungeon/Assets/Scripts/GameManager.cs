@@ -14,9 +14,12 @@ namespace ProceduralDungeon
         private SceneBoilerplate sceneBoilerplate;
         private List<Button> buttons;
         private CameraController cameraHandler;
-        private SpriteRendererDungeon spriteRendererDungeon;
         private Dungeon dungeon;
         private List<Field> fields;
+        private ILayoutGenerator generator;
+        private ILayoutAnalyzer analyzer;
+        private IContentPlacer contentPlacer;
+        private IDungeonVisualizer visualizer;
 
         private void Awake()
         {
@@ -27,7 +30,11 @@ namespace ProceduralDungeon
             fields = FindObjectsByType<Field>(FindObjectsSortMode.None).ToList();
             buttons = FindObjectsByType<Button>(FindObjectsSortMode.None).ToList();
             cameraHandler = FindAnyObjectByType<CameraController>();
-            spriteRendererDungeon = FindAnyObjectByType<SpriteRendererDungeon>();
+
+            generator = FindAnyObjectByType<RandomWalkWithRooms>();
+            analyzer = FindAnyObjectByType<FloodFill>();
+            contentPlacer = FindAnyObjectByType<ContentPlacer>();
+            visualizer = FindAnyObjectByType<SpriteRendererDungeon>();
             dungeon = FindAnyObjectByType<Dungeon>();
         }
 
@@ -42,7 +49,7 @@ namespace ProceduralDungeon
 
             fields.ForEach(x => x.Setup(blackboard));
             cameraHandler.Setup(blackboard);
-            dungeon.Setup();
+            dungeon.Setup(generator, analyzer, contentPlacer, visualizer);
 
             GetButtonByName(buttons, nameof(Generate)).onClick.AddListener(Generate);
             GetButtonByName(buttons, nameof(GenerateRandom)).onClick.AddListener(GenerateRandom);

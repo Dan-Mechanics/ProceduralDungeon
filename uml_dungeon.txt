@@ -1,0 +1,85 @@
+@startuml
+
+class Dungeon
+{
+    + void Setup(ILayoutGenerator, ILayoutAnalyzer, IContentPlacer, IDungeonVisualizer)
+    + void Generate(blackboard: Blackboard)
+}
+
+interface ILayoutGenerator
+{
+    + TileType[,] Generate(blackboard: Blacboard)
+}
+
+interface IDungeonVisualizer
+{
+    + void Visualize(tiles: TileType[,])
+}
+
+interface IContentPlacer
+{
+    + void PlaceContent(TileType[,], TileMetadata[,], Blackboard)
+}
+
+interface ILayoutAnalyzer
+{
+    + TileMetadata[,] Analyze(tiles: TileType[,])
+}
+
+class RandomWalkWithRooms implements ILayoutGenerator
+{
+    - safeRooms: RoomCollection
+    - enemyRooms: RoomCollection
+    - sameDirectionOdds: float
+    - iterations: int
+    + TileType[,] Generate(blackboard: Blacboard)
+}
+
+class FloodFill implements ILayoutAnalyzer
+{
+    + TileMetadata[,] Analyze(tiles: TileType[,])
+    - int CountNeighbours()
+    - HashSet<Vector2Int> RemoveIslands()
+    - void CountSteps()
+}
+
+class ContentPlacer implements IContentPlacer
+{
+    - floor: TileType
+    - coins: TileType
+    - loot: TileType
+    - start: TileType
+    - goal: TileType
+    + void PlaceContent(TileType[,], TileMetadata[,], Blackboard)
+}
+
+class SpriteRendererDungeon implements IDungeonVisualizer
+{
+    - typeToSprite: Dictionary<TileType, Sprite>
+    - prefab: GameObject
+    + void Visualize(tiles: TileType[,])
+}
+
+class Room extends ScriptableObject
+{
+    + texture: Texture2D
+    + void Apply(tiles, TileType[,], posX: int, posY: int)
+}
+
+class RoomCollection
+{
+    + rooms: Room[]
+    + minRequired: int
+    + count: int
+    + void Clear()
+    + Room GetRandomRoom()
+}
+
+Dungeon ..* ILayoutGenerator
+Dungeon ..* ILayoutAnalyzer
+Dungeon ..* IContentPlacer
+Dungeon ..* IDungeonVisualizer
+RandomWalkWithRooms ..> RoomCollection
+RoomCollection ..> Room
+
+@enduml
